@@ -1,0 +1,23 @@
+.main-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin-top: 60px;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+  background-color: var(--white);
+}
+
+.video-content {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 10px var(--shadow);
+  border-radius: 8px;
+}

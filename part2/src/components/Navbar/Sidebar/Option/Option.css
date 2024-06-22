@@ -1,0 +1,28 @@
+.option {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  color: var(--black);
+}
+
+.option:hover {
+  background-color: var(--background-color);
+  cursor: pointer;
+}
+
+.option-icon {
+  margin-right: 10px;
+  font-size: 20px;
+  color: var(--black);
+  fill: currentColor; 
+}
+
+.option-text {
+  font-size: 16px;
+  color: var(--black);
+}
