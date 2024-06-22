@@ -1,0 +1,179 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.video-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  height: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.video-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 75%;
+  width: 100%;
+  height: auto;
+  margin: 20px;
+  box-sizing: border-box;
+}
+
+.video-element-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  overflow: hidden;
+  background: black;
+}
+
+.video-element {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.video-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.video-page-title {
+  font-size: 24px;
+  color: var(--title-color);
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.video-owner-details {
+  display: flex;
+  align-items: center;
+  margin-top: -10px;
+  width: 100%;
+  text-align: left;
+}
+
+.owner-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.owner-name {
+  font-size: 16px;
+  color: var(--secondary-text-color);
+}
+
+.video-views {
+  font-size: 14px;
+  color: var(--secondary-lighter-text-color);
+  margin-top: 4px;
+}
+
+.video-description {
+  margin-top: 20px;
+  font-size: 18px;
+  color: var(--secondary-text-color);
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.video-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.comment-section {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 600px;
+  text-align: left;
+}
+
+.comment-form {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.comment-list {
+  margin-top: 20px;
+}
+
+.three-dots {
+  border: none;
+  padding: 12px;
+  border-radius: 50px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--lightgray);
+}
+
+.three-dots:hover {
+  background-color: var(--deeper-lightgray);
+}
+
+.dropdown-menu {
+  width: 100px;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--white);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 8px var(--shadow);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-menu button {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 10px 0;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-size: 14px;
+  color: var(--black);
+}
+
+.dropdown-menu button:hover {
+  background-color: var(--background-color);
+}
+
+.dropdown-menu img {
+  width: 16px; 
+  height: 16px;
+  margin-right: 8px; 
+}
+
+.delete-button {
+  color: var(--red);
+}
+
+.action-icon {
+margin-right: 8px;
+}

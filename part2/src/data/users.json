@@ -1,0 +1,47 @@
+[
+  {
+    "firstName": "Maayan",
+    "lastName": "Zahavi",
+    "email": "maayan@gmail.com",
+    "password": "1234Haha!",
+    "displayName": "MaayanZ",
+    "photo": "/profilePics/maayan.png",
+    "likedVideos": []
+  },
+  {
+    "firstName": "Dua",
+    "lastName": "Lipa",
+    "email": "dua@gmail.com",
+    "password": "123Haha!",
+    "displayName": "Dula Peep",
+    "photo": "/profilePics/dua.png",
+    "likedVideos": []
+  },
+  {
+    "firstName": "Amit",
+    "lastName": "Karol",
+    "email": "amit@gmail.com",
+    "password": "123Haha!",
+    "displayName": "Amit K",
+    "photo": "/profilePics/amit.png",
+    "likedVideos": []
+  },
+  {
+    "firstName": "Hemi",
+    "lastName": "The King",
+    "email": "hemi@gmail.com",
+    "password": "123Haha!",
+    "displayName": "Hemi",
+    "photo": "/profilePics/hemi.png",
+    "likedVideos": []
+  }, 
+  {
+    "firstName": "Snailey",
+    "lastName": "Snail",
+    "email": "snail@gmail.com",
+    "password": "123Haha!",
+    "displayName": "Mr. Snail",
+    "photo": "/profilePics/snail.png",
+    "likedVideos": []
+  }
+]

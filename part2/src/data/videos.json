@@ -1,0 +1,153 @@
+[
+    {
+      "id": 1,
+      "title": "Paris - breakfast at Carette",
+      "img": "/videos/test.JPG",
+      "video": "/videos/test.mp4",
+      "description": "Paris was delicious.",
+      "owner": "maayan@gmail.com",
+      "views": 1000,
+      "likes": 0,
+      "comments": [
+        {
+          "user": "amit@gmail.com",
+          "content": "Omg, looks amazing!",
+          "date": "2024-06-10"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Leaving London",
+      "img": "/videos/carla-crying.jpg",
+      "video": "/videos/carla-crying.mp4",
+      "description": "So sad to leave London.",
+      "owner": "hemi@gmail.com",
+      "views": 848,
+      "likes": 545,
+      "comments": []
+    },
+    {
+      "id": 3,
+      "title": "You Need To Calm Down - The Eras Tour",
+      "img": "/videos/eras-tour.jpg",
+      "video": "/videos/eras-tour.mp4",
+      "description": "This night was sparkling!.",
+      "owner": "maayan@gmail.com",
+      "views": 33,
+      "likes": 0,
+      "comments": [
+        {
+          "user": "dua@gmail.com",
+          "content": "Looks like a dream! I wanna be there!",
+          "date": "2024-06-10"
+        },
+        {
+          "user": "hemi@gmail.com",
+          "content": "Mehhh... Justin Sheeber is better.",
+          "date": "2024-06-10"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "New Rules - Dua Lipa",
+      "img": "/videos/new-rules.jpg",
+      "video": "/videos/new-rules.mp4",
+      "description": "Best Clip Ever!",
+      "owner": "dua@gmail.com",
+      "views": 23,
+      "likes": 0,
+      "comments": [
+        {
+          "user": "maayan@gmail.com",
+          "content": "So talented.",
+          "date": "2024-06-10"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Mr. Snail - Ice Cream Guy",
+      "img": "/videos/ice-cream-snail.jpg",
+      "video": "/videos/ice-cream-snail.mp4",
+      "description": "Mr. Snail's ice cream is the BEST!",
+      "owner": "snail@gmail.com",
+      "views": 10028263,
+      "likes": 0,
+      "comments": [
+        {
+          "user": "hemi@gmail.com",
+          "content": "Wow!!! Amazing!! You get a 100!",
+          "date": "2024-06-10"
+        },
+        {
+          "user": "dua@gmail.com",
+          "content": "HAHAHAHA SO FUNNY",
+          "date": "2024-06-10"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Mr. Snail - Police Officer",
+      "img": "/videos/police-snail.jpg",
+      "video": "/videos/police-snail.mp4",
+      "description": "Mr. Snail is the BEST police officer!",
+      "owner": "snail@gmail.com",
+      "views": 477,
+      "likes": 0,
+      "comments": []
+    },
+    {
+      "id": 7,
+      "title": "Mr. Snail - Basketball Player",
+      "img": "/videos/basketball-snail.jpg",
+      "video": "/videos/basketball-snail.mp4",
+      "description": "Mr. Snail is the BEST basketball player!",
+      "owner": "snail@gmail.com",
+      "views": 957,
+      "likes": 0,
+      "comments": []
+    },
+    {
+      "id": 8,
+      "title": "Disneyland",
+      "img": "/videos/disney.jpg",
+      "video": "/videos/disney.mp4",
+      "description": "Disney was magical.",
+      "owner": "hemi@gmail.com",
+      "views": 355,
+      "likes": 0,
+      "comments": []
+    },
+    {
+      "id": 9,
+      "title": "Lions King Misical London",
+      "img": "/videos/lions-king.jpg",
+      "video": "/videos/lions-king.mp4",
+      "description": "Hakuna Matatta!",
+      "owner": "maayan@gmail.com",
+      "views": 200044,
+      "likes": 0,
+      "comments": []
+    },
+    {
+      "id": 10,
+      "title": "Dior Gallery - Paris",
+      "img": "/videos/dior-gallery.jpg",
+      "video": "/videos/dior-gallery.mp4",
+      "description": "So beautiful",
+      "owner": "maayan@gmail.com",
+      "views": 3837,
+      "likes": 0,
+      "comments": [
+        {
+          "user": "maayan@gmail.com",
+          "content": "Beautiful!",
+          "date": "2024-06-10"
+        }
+      ]
+    }
+  ]
+  

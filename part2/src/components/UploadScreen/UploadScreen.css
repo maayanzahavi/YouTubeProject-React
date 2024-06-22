@@ -1,0 +1,13 @@
+.upload-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.upload-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  background-color: var(--background-color);
+}

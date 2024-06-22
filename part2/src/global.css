@@ -1,0 +1,26 @@
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --comment-background: #f9f9f9;
+  --comment-border: #ddd;
+  --comment-text-color: #000000;
+  --comment-date-color: #777;
+  --delete-icon-color: #000000;
+}
+
+body.dark-mode {
+  --background-color: #1e1e1e;
+  --text-color: #ffffff;
+  --comment-background: #2e2e2e;
+  --comment-border: #444;
+  --comment-text-color: #ffffff;
+  --comment-date-color: #aaa;
+  --delete-icon-color: #ffffff;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Add other global styles if needed */
