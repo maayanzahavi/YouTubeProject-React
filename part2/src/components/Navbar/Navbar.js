@@ -82,13 +82,13 @@ const Navbar = ({ user, setUser, isDarkMode, setIsDarkMode, doSearch }) => {
           </div>
             <div className="profile-container" onClick={handleProfileClick}>
               <div className="profile-info">
-                <ProfilePicture photo={user.photo} />
+                <ProfilePicture user={user} />
                 <div className="profile-greeting">Hello {user.firstName}!</div>
               </div>
               {showDetails && (
                 <div className="profile-details">
                   <p className="displayname">{user.displayName}</p>
-                  <ProfilePicture photo={user.photo} />
+                  <ProfilePicture user={user} />
                   <p className="name">
                     {user.firstName} {user.lastName}
                   </p>

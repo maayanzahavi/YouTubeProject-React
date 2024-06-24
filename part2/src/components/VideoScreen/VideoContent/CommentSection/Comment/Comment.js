@@ -29,7 +29,7 @@ const Comment = ({ userEmail, users, date, content, onDelete, onEdit }) => {
 
   return (
     <div className="comment-item">
-      <ProfilePicture photo={owner.photo} />
+      <ProfilePicture user={owner} />
       <div className="comment-content">
         <div className="comment-header">
           <span className="comment-name">{owner.displayName}</span>

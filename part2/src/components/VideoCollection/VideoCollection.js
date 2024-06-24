@@ -11,8 +11,8 @@ function VideoCollection({ videos, users, setVideos }) {
     const updatedVideo = { ...video, views: updatedViews };
     setVideos((prevVideos) => prevVideos.map((v) => (v.id === video.id ? updatedVideo : v)));
 
-    // Navigate to the video watch screen
-    navigate(`/video/${video.id}`);
+     // Navigate to the video watch screen
+     navigate(`api/111/video/${video._id}`);
   };
 
   const videoList = videos.map((video, index) => (

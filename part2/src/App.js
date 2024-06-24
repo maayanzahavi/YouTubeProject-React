@@ -12,6 +12,7 @@ import VideoScreen from './components/VideoScreen/VideoScreen';
 import UploadScreen from './components/UploadScreen/UploadScreen';
 import videosData from './data/videos.json';
 import usersData from './data/users.json';
+import UserPage from './components/UserPage/UserPage';
 
 function App() {
   const [idCounter, setIdCounter] = useState(11);
@@ -51,9 +52,23 @@ function App() {
             }
           />
           <Route
-            path="/video/:id"
+            path="api/users/:id/videos/:pid"
             element={
               <VideoScreen
+                users={users}
+                user={currentUser}
+                videos={videos}
+                setVideos={setVideos}
+                isDarkMode={isDarkMode}
+                setIsDarkMode={setIsDarkMode}
+                setUser={setCurrentUser}
+              />
+            }
+          />
+          <Route
+            path="/users/:id"
+            element={
+              <UserPage
                 users={users}
                 user={currentUser}
                 videos={videos}

@@ -127,7 +127,7 @@ const VideoContent = ({ initialVideo, users, currentUser, setVideos }) => {
           </div>
         </div>
         <div className="video-owner-details">
-          {owner && <ProfilePicture photo={owner.photo} />}
+          {owner && <ProfilePicture user={owner} />}
           <div className="owner-info">
             <span className="owner-name">{owner ? owner.displayName : 'Unknown'}</span>
             <span className="video-views">{video.views} views</span>
