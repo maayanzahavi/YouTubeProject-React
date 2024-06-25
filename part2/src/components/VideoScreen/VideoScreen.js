@@ -16,6 +16,7 @@ const VideoScreen = ({ users, setVideos, isDarkMode, setIsDarkMode, doSearch, se
         const data = await response.json();
         setFetchedUser(data.user);
         setVideo(data);
+        console.log("video: ", video);
       } catch (error) {
         console.error('Error fetching user and video data:', error);
       }

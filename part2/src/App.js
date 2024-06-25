@@ -52,7 +52,7 @@ function App() {
             }
           />
           <Route
-            path="api/users/:id/videos/:pid"
+            path="home/api/users/:id/videos/:pid"
             element={
               <VideoScreen
                 users={users}
