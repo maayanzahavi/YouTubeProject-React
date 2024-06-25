@@ -12,7 +12,7 @@ const VideoSnapshot = ({ video, users }) => {
       <div className="video">
         <img src={video.img} className="video-thumbnail" alt="Video Thumbnail" />
         <div className="video-details">
-          {owner && <ProfilePicture photo={owner.photo} />}
+          {owner && <ProfilePicture user={owner} />}
           <div className="video-info">
             <h2 className="video-title">{video.title}</h2>
             {owner && <span className="owner-name">{owner.displayName}</span>}
