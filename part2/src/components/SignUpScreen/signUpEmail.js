@@ -13,13 +13,31 @@ function SignUpEmail({ users }) {
   const { firstName = '', lastName = '' } = location.state || {};
 
   // When pressing next makes sure the input is valid and moves on the next step
-  const handleNext = (e) => {
+  const handleNext = async (e) => {
     e.preventDefault();
-    const user = users.find((user) => user.email === email);
-    if (user) {
-      setError('A user with the email already exists.');
-    } else if (validateEmail(email)) {
-      navigate('/signup-password', { state: { firstName, lastName, email } });
+
+    if (validateEmail(email)) {
+      try {
+        const res = await fetch(`http://localhost:8200/api/users/${email}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await res.json();
+        if (data) {
+          setError('A user with this email already exists.');
+        } else {
+          navigate('/signup-password', { state: { firstName, lastName, email } });
+        }
+      } catch (error) {
+        setError('Server error. Please try again later.');
+      }
     } else {
       setError('Please enter a valid email address.');
     }

@@ -1,23 +1,38 @@
-// loginEmail component is the screen for putting the user email for log in
 import React, { useState } from 'react';
 import './login.css';
 import logo from '../../assets/logo.png';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 
-function LoginEmail({ users }) {
+function LoginEmail() {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleNext = (e) => {
+  const handleNext = async (e) => {
     e.preventDefault();
-    const user = users.find((user) => user.email === email);
-    if (user) {
-      // If the user was found, move on to password page
-      navigate('/login-password', { state: { user } });
-    } else {
-      // Otherwise, send error
-      setError('Email not found');
+    setError('');
+    try {
+      console.log('Sending request to server...');
+      const res = await fetch(`http://localhost:8200/api/users/${email}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log('Response received:', res);
+
+      if (res.status === 404) {
+        setError('User not found');
+      } else if (!res.ok) {
+        throw new Error('Network response was not ok');
+      } else {
+        const data = await res.json();
+        console.log('Data received:', data);
+        navigate('/login-password', { state: { user: data } });
+      }
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      setError('An error occurred. Please try again later.');
     }
   };
 

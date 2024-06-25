@@ -1,5 +1,3 @@
-// loginPassword component is the screen for putting the user password
-
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './login.css';
@@ -8,20 +6,30 @@ import logo from '../../assets/logo.png';
 function LoginPassword({ setCurrentUser }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = location.state || {}; 
+  const { user } = location.state || {};
   const [enteredPassword, setEnteredPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
 
-  const handleNext = (e) => {
+  const handleNext = async (e) => {
     e.preventDefault();
-    if (user.password === enteredPassword) {
-      // If the password is currect, update the current user to this user and go to home page
-      setCurrentUser(user);
-      navigate('/home', { state: { user } });
-    } else {
-      // Otherwise, throw a message
-      setError('Password incorrect.');
+    try {
+      const res = await fetch(`http://localhost:8200/api/users/${user.email}?password=${(enteredPassword)}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem('token', data.token);
+        setCurrentUser(user);
+        navigate('/home', { state: { user } });
+      } else {
+        setError('Password incorrect.');
+      }
+    } catch (error) {
+      setError('An error occurred. Please try again later.');
     }
   };
 
