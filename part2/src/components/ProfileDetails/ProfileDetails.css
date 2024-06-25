@@ -1,0 +1,38 @@
+.profile-details-horizontal {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--white);
+    border-radius: 8px;
+    margin: 10px;
+  }
+  
+  .profile-text {
+    margin-left: 20px;
+    text-align: left;
+  }
+  
+  .name {
+    font-size: 24px; 
+    font-weight: bold;
+    color: var(--black);
+    margin: 10px 0; 
+  }
+  
+  .displayname {
+    font-size: 20px; 
+    color: var(--primary-text-color);
+    margin: 8px 0;
+  }
+  
+  .email {
+    font-size: 18px;
+    color: var(--secondary-text-color); 
+    margin: 6px 0; 
+  }
+  
+  .profile-pic-big {
+    width: 80px;
+    height: 80px;
+  }
+  

@@ -70,7 +70,7 @@ function App() {
             element={
               <UserPage
                 users={users}
-                user={currentUser}
+                currentUser={currentUser}
                 videos={videos}
                 setVideos={setVideos}
                 isDarkMode={isDarkMode}
