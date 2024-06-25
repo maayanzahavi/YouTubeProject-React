@@ -52,11 +52,11 @@ function App() {
             }
           />
           <Route
-            path="home/api/users/:id/videos/:pid"
+            path="/home/api/users/:id/videos/:pid"
             element={
               <VideoScreen
                 users={users}
-                user={currentUser}
+                currentUser={currentUser}
                 videos={videos}
                 setVideos={setVideos}
                 isDarkMode={isDarkMode}
@@ -66,7 +66,7 @@ function App() {
             }
           />
           <Route
-            path="/users/:id"
+            path="/home/api/users/:id/videos"
             element={
               <UserPage
                 users={users}

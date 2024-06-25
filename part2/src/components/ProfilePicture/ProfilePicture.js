@@ -6,12 +6,11 @@ const ProfilePicture = ({ user }) => {
   const navigate = useNavigate();
 
   if (!user) {
-    return null; // or return a placeholder image, loading spinner, etc.
+    return null; 
   }
 
   const handleProfileClick = () => {
-    debugger;
-    navigate(`/users/${user.email}`);
+    navigate(`/home/api/users/${user.email}/videos`);
   };
 
   return (

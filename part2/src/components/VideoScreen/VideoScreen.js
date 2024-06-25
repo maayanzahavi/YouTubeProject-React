@@ -4,17 +4,16 @@ import VideoContent from './VideoContent/VideoContent';
 import { useParams } from 'react-router-dom';
 import './VideoScreen.css';
 
-const VideoScreen = ({ users, setVideos, isDarkMode, setIsDarkMode, doSearch, setUser }) => {
+const VideoScreen = ({ users, setVideos, isDarkMode, setIsDarkMode, doSearch, setUser, currentUser }) => {
   const { id, pid } = useParams(); 
   const [fetchedUser, setFetchedUser] = useState(null);
   const [video, setVideo] = useState(null);
 
   useEffect(() => {
-    const fetchUserAndVideo = async () => {
+    const fetchVideoDetails = async () => {
       try {
         const response = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}`);
         const data = await response.json();
-        setFetchedUser(data.user);
         setVideo(data);
         console.log("video: ", video);
       } catch (error) {
@@ -22,7 +21,25 @@ const VideoScreen = ({ users, setVideos, isDarkMode, setIsDarkMode, doSearch, se
       }
     };
 
-    fetchUserAndVideo();
+    const fetchUserDetails = async () => {
+      try {
+        const res = await fetch(`http://localhost:8200/api/users/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const data = await res.json();
+        setFetchedUser(data);
+        console.log("user: ", fetchedUser);
+        console.log("email: ", id);
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
+    };
+
+    fetchVideoDetails();
+    fetchUserDetails();
   }, [pid, id]);
 
   if (!video) {
@@ -32,7 +49,7 @@ const VideoScreen = ({ users, setVideos, isDarkMode, setIsDarkMode, doSearch, se
   return (
     <div className="main-screen">
       <Navbar 
-        user={fetchedUser} 
+        user={currentUser} 
         isDarkMode={isDarkMode} 
         setIsDarkMode={setIsDarkMode} 
         doSearch={doSearch} 
@@ -40,7 +57,7 @@ const VideoScreen = ({ users, setVideos, isDarkMode, setIsDarkMode, doSearch, se
       />
       <div className="main-content">
         <div className="video-screen-content">
-          <VideoContent initialVideo={video} users={users} currentUser={fetchedUser} setVideos={setVideos} />
+          <VideoContent initialVideo={video} owner={fetchedUser} users={users} currentUser={fetchedUser} setVideos={setVideos} />
         </div>
       </div>
     </div>
