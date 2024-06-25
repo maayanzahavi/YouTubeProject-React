@@ -13,6 +13,7 @@ import UploadScreen from './components/UploadScreen/UploadScreen';
 import videosData from './data/videos.json';
 import usersData from './data/users.json';
 import UserPage from './components/UserPage/UserPage';
+import EditUser from './components/UserPage/EditUser/EditUser';
 
 function App() {
   const [idCounter, setIdCounter] = useState(11);
@@ -79,6 +80,7 @@ function App() {
               />
             }
           />
+          <Route path="/home/api/users/:id/account" element={ <EditUser /> } />
           <Route
             path="/video-upload"
             element={<UploadScreen videos={videos} setVideos={setVideos} id={idCounter} setIdCounter={setIdCounter} user={currentUser} />}
