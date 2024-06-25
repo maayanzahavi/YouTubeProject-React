@@ -46,7 +46,7 @@ const UserPage = ({ users, setUser, setVideos, isDarkMode, setIsDarkMode, curren
   }, [id]);
 
   if (!userDetails) {
-    return <div>Loading...</div>;
+    return <div>No user found.</div>;
   }
 
   return (
