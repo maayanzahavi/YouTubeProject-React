@@ -13,6 +13,8 @@ import IsLikedIcon from '../../../assets/icons/isLikedIcon';
 
 const VideoContent = ({ initialVideo, owner, users, currentUser, setVideos }) => {
   const navigate = useNavigate();
+  const [id, setId] = useState(initialVideo.owner);
+  const [pid, setPid] = useState(initialVideo._id);
   const [video, setVideo] = useState(initialVideo);
   const [currentLikeIcon, setCurrentLikeIcon] = useState(
     currentUser && currentUser.likedVideos.includes(initialVideo.id)
@@ -59,9 +61,23 @@ const VideoContent = ({ initialVideo, owner, users, currentUser, setVideos }) =>
   };
 
   // Handles video delete
-  const handleDelete = () => {
-    setVideos((prevVideos) => prevVideos.filter((v) => v.id !== video.id));
-    navigate('/home');
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      navigate(`/home`);
+    } catch (error) {
+      console.error('An error occurred while deleting the video. Please try again later.', error);
+    }
   };
 
   const handleShare = () => {
