@@ -6,3 +6,7 @@
   margin-right: 10px;
   flex-shrink: 0; 
 }
+
+.profile-pic:hover {
+  cursor: pointer;
+}
