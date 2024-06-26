@@ -10,57 +10,69 @@ import Toggle from './Toggle/Toggle';
 import SearchBar from './SearchBar';
 import UserIcon from '../../assets/icons/UserIcon';
 import VideoIcon from '../../assets/icons/VideoIcon';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'; 
 
-const Navbar = ({ user, setUser, isDarkMode, setIsDarkMode, doSearch }) => {
+const Navbar = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null);
+  const [userEmail, setUserEmail] = useState('');
   const token = localStorage.getItem('token');
-
+  
   useEffect(() => {
     if (token) {
       try {
         const decodedUser = jwtDecode(token);
         if (decodedUser) {
-          setCurrentUser(decodedUser.email);
+          setUserEmail(decodedUser.email);
         }
-        console.log("Decoded User 1:", decodedUser);
       } catch (error) {
-        console.log('Invalid token');
       }
     } else {
-      console.log("No token found");
     }
-  }, [token]);  
+  }, [token]);
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      if (userEmail) {
+        try {
+          const res = await fetch(`http://localhost:8200/api/users/${userEmail}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          const data = await res.json();
+          setCurrentUser(data);
+        } catch (error) {
+          console.error('Error fetching user details:', error);
+        }
+      }
+    };
+    fetchUserDetails();
+  }, [userEmail]); 
 
   const [showDetails, setShowDetails] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
   const [currentLogo, setCurrentLogo] = useState(isDarkMode ? darkmodeLogo : logo);
 
-  // Handle sidebar showing 
   const handleSidebarToggle = (e) => {
     e.preventDefault();
     setShowSidebar(!showSidebar);
   };
 
-  // When clicking the profile pic
   const handleProfileClick = () => {
     setShowDetails(!showDetails);
   };
 
-  // Sign out takes you to the home page
   const handleSignOut = () => {
     localStorage.removeItem('token');
     setCurrentUser(null);
-    setUser(null);
     navigate('/home');
   };
 
-  // Switch user takes you to the login screen
   const handleSwitchUser = () => {
     localStorage.removeItem('token');
     setCurrentUser(null);
-    setUser(null);
     navigate('/login-email');
   };
 
@@ -68,19 +80,13 @@ const Navbar = ({ user, setUser, isDarkMode, setIsDarkMode, doSearch }) => {
     navigate('/video-upload');
   };
 
-  // Clicking on the logo takes you to home page
   const handleLogoClick = () => {
     navigate('/home');
   };
 
-  // Dark mode toggle 
   const handleModeToggle = () => {
     setIsDarkMode(!isDarkMode);
-    if (!isDarkMode) {
-      setCurrentLogo(darkmodeLogo);
-    } else {
-      setCurrentLogo(logo);
-    }
+    setCurrentLogo(!isDarkMode ? darkmodeLogo : logo);
   };
   
   return (
