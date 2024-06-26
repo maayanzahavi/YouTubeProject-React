@@ -1,8 +1,8 @@
 // Component for uploading videos
 import React from 'react';
-import Navbar from '../Navbar/Navbar';
+import Navbar from '../../Navbar/Navbar';
 import './UploadScreen.css';
-import VideoUpload from './VideoCreate/VideoUpload';
+import VideoUpload from './VideoUpload';
 
 const UploadScreen = ({ videos, setVideos, id, setIdCounter, user }) => {
 

@@ -1,16 +1,21 @@
 // Component for edit videos
 import React, { useState } from 'react';
-import './VideoUpload.css';
+import { useNavigate } from 'react-router-dom';
 
-const VideoEdit = ({ video, setVideos, onSave, onCancel }) => {
+const VideoEdit = ({ video, setVideos, onSave }) => {
   const [title, setTitle] = useState(video.title);
   const [description, setDescription] = useState(video.description);
   const [img, setImg] = useState(null);
+  const navigate = useNavigate();
 
   // Changing image
   const handleImageChange = (e) => {
     setImg(e.target.files[0]);
   };
+
+  const handleClose = (e) => {
+    navigate(`/home/api/users/${video.owner}/videos/${video._id}`);
+  }
 
   // Updates the video when hitting save
   const handleSubmit = (e) => {
@@ -28,7 +33,7 @@ const VideoEdit = ({ video, setVideos, onSave, onCancel }) => {
   return (
     <div className="video-upload-container">
       <div className="video-upload-box">
-        <button className="close-button" onClick={onCancel}>
+        <button className="close-button" onClick={handleClose}>
           &times;
         </button>
         <h2 className="video-upload-title">Edit Video</h2>
@@ -45,7 +50,7 @@ const VideoEdit = ({ video, setVideos, onSave, onCancel }) => {
               </div>
             </div>
             <div className="upload-input-group">
-              <button
+              <div
                 type="button"
                 className="upload-link"
                 onClick={(e) => {
@@ -54,7 +59,7 @@ const VideoEdit = ({ video, setVideos, onSave, onCancel }) => {
                 }}
               >
                 Choose Thumbnail
-              </button>
+              </div>
               <div className="image-box">
                 {img ? (
                   <img src={URL.createObjectURL(img)} alt="Thumbnail Preview" className="image-preview" />
