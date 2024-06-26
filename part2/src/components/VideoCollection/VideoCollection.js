@@ -12,7 +12,7 @@ function VideoCollection({ videos, users, setVideos }) {
     setVideos((prevVideos) => prevVideos.map((v) => (v.id === video.id ? updatedVideo : v)));
 
      // Navigate to the video watch screen
-     navigate(`api/111/video/${video._id}`);
+     navigate(`/home/api/users/${video.owner}/videos/${video._id}`);
   };
 
   const videoList = videos.map((video, index) => (

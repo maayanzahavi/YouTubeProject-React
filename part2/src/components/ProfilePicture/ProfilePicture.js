@@ -2,23 +2,22 @@ import React from 'react';
 import './ProfilePicture.css';
 import { useNavigate } from 'react-router-dom';
 
-const ProfilePicture = ({ user }) => {
+const ProfilePicture = ({ user, className }) => {
   const navigate = useNavigate();
 
   if (!user) {
-    return null; // or return a placeholder image, loading spinner, etc.
+    return null; 
   }
 
   const handleProfileClick = () => {
-    debugger;
-    navigate(`/users/${user.email}`);
+    navigate(`/home/api/users/${user.email}/videos`);
   };
 
   return (
     <img 
       src={user.photo} 
       alt="Profile" 
-      className="profile-pic" 
+      className={`profile-pic ${className}`} 
       onClick={handleProfileClick} 
     />
   );

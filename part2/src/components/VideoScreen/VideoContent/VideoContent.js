@@ -12,7 +12,7 @@ import EditIcon from '../../../assets/icons/EditIcon';
 import DeleteIcon from '../../../assets/icons/DeleteIcon';
 import IsLikedIcon from '../../../assets/icons/isLikedIcon';
 
-const VideoContent = ({ initialVideo, users, currentUser, setVideos }) => {
+const VideoContent = ({ initialVideo, owner, users, currentUser, setVideos }) => {
   const navigate = useNavigate();
   const [video, setVideo] = useState(initialVideo);
   const [currentLikeIcon, setCurrentLikeIcon] = useState(
@@ -21,9 +21,7 @@ const VideoContent = ({ initialVideo, users, currentUser, setVideos }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isShareWindowVisible, setIsShareWindowVisible] = useState(false);
-
-  const owner = users.find((user) => user.email === video.owner);
-
+  
   // Handles likes
   const handleLike = (e) => {
     e.preventDefault();
