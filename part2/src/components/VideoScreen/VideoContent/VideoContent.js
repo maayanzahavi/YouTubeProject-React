@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import './VideoContent.css';
 import VideoAction from './VideoAction/VideoAction';
 import CommentSection from './CommentSection/CommentSection';
-import VideoEdit from '../../UploadScreen/VideoCreate/VideoEdit';
 import ProfilePicture from '../../ProfilePicture/ProfilePicture';
 import ShareWindow from './ShareWindow/ShareWindow';
 import ShareIcon from '../../../assets/icons/ShareIcon';
@@ -19,7 +18,6 @@ const VideoContent = ({ initialVideo, owner, users, currentUser, setVideos }) =>
     currentUser && currentUser.likedVideos.includes(initialVideo.id)
   );
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const [isShareWindowVisible, setIsShareWindowVisible] = useState(false);
   
   // Handles likes
@@ -55,21 +53,9 @@ const VideoContent = ({ initialVideo, owner, users, currentUser, setVideos }) =>
     setDropdownVisible(!dropdownVisible);
   };
 
-  // Handle video edit 
+  // Handle video edit
   const handleEdit = () => {
-    setIsEditing(true);
-    setDropdownVisible(false);
-  };
-
-  // Updates the video after video edit
-  const handleSave = (updatedVideo) => {
-    setVideo(updatedVideo);
-    setVideos((prevVideos) => prevVideos.map((v) => (v.id === updatedVideo.id ? updatedVideo : v)));
-    setIsEditing(false);
-  };
-
-  const handleCancel = () => {
-    setIsEditing(false);
+    navigate(`/home/api/users/${video.owner}/videos/${video._id}/edit`);
   };
 
   // Handles video delete
@@ -85,10 +71,6 @@ const VideoContent = ({ initialVideo, owner, users, currentUser, setVideos }) =>
   const closeShareWindow = () => {
     setIsShareWindowVisible(false);
   };
-
-  if (isEditing) {
-    return <VideoEdit video={video} setVideos={setVideos} onSave={handleSave} onCancel={handleCancel} />;
-  }
 
   return (
     <div className="video-page-container">
