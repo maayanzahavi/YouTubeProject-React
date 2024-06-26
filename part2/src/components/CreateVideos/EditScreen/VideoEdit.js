@@ -27,6 +27,7 @@ const VideoEdit = ({ video }) => {
       img: img ? URL.createObjectURL(img) : video.img,
     };
     await updateVideo(updatedVideo);
+    navigate(`/home/api/users/${video.owner}/videos/${video._id}`);
   };
 
   const updateVideo = async (updatedVideo) => {
@@ -42,9 +43,6 @@ const VideoEdit = ({ video }) => {
       if (!res.ok) {
         throw new Error('Network response was not ok');
       }
-
-      const data = await res.json();
-      navigate(`/home/api/users/${video.owner}/videos/${video._id}`);
     } catch (error) {
       console.error('An error occurred. Please try again later.', error);
     }
