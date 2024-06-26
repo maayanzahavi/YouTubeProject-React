@@ -1,10 +1,11 @@
-// Component for edit videos
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const VideoEdit = ({ video, setVideos, onSave }) => {
-  const [title, setTitle] = useState(video.title);
-  const [description, setDescription] = useState(video.description);
+const VideoEdit = ({ video }) => {
+  const [pid, setPid] = useState(video._id);
+  const [id, setId] = useState(video.owner);
+  const [title, setTitle] = useState(video?.title || '');
+  const [description, setDescription] = useState(video?.description || '');
   const [img, setImg] = useState(null);
   const navigate = useNavigate();
 
@@ -13,21 +14,40 @@ const VideoEdit = ({ video, setVideos, onSave }) => {
     setImg(e.target.files[0]);
   };
 
-  const handleClose = (e) => {
+  const handleClose = () => {
     navigate(`/home/api/users/${video.owner}/videos/${video._id}`);
-  }
+  };
 
   // Updates the video when hitting save
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedVideo = {
-      ...video,
-      title,
-      description,
+      title: title,
+      description: description,
       img: img ? URL.createObjectURL(img) : video.img,
     };
-    setVideos((prevVideos) => prevVideos.map((v) => (v.id === video.id ? updatedVideo : v)));
-    onSave(updatedVideo);
+    await updateVideo(updatedVideo);
+  };
+
+  const updateVideo = async (updatedVideo) => {
+    try {
+      const res = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedVideo)
+      });
+
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await res.json();
+      navigate(`/home/api/users/${video.owner}/videos/${video._id}`);
+    } catch (error) {
+      console.error('An error occurred. Please try again later.', error);
+    }
   };
 
   return (
@@ -50,7 +70,7 @@ const VideoEdit = ({ video, setVideos, onSave }) => {
               </div>
             </div>
             <div className="upload-input-group">
-              <div
+              <button
                 type="button"
                 className="upload-link"
                 onClick={(e) => {
@@ -59,7 +79,7 @@ const VideoEdit = ({ video, setVideos, onSave }) => {
                 }}
               >
                 Choose Thumbnail
-              </div>
+              </button>
               <div className="image-box">
                 {img ? (
                   <img src={URL.createObjectURL(img)} alt="Thumbnail Preview" className="image-preview" />

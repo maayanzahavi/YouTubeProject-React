@@ -26,7 +26,7 @@ const EditScreen = ({ setVideos, setIdCounter, user }) => {
   if (!video) {
     return <div>No video found...</div>;
   }
-
+  
   return (
     <div className="upload-screen">
       <Navbar user={user} />

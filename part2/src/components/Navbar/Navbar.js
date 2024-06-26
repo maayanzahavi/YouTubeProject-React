@@ -1,5 +1,4 @@
-// Navigation bar
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import './Toggle/Toggle.css'; 
 import { useNavigate, Link } from 'react-router-dom';
@@ -11,10 +10,28 @@ import Toggle from './Toggle/Toggle';
 import SearchBar from './SearchBar';
 import UserIcon from '../../assets/icons/UserIcon';
 import VideoIcon from '../../assets/icons/VideoIcon';
-
+import { jwtDecode } from 'jwt-decode';
 
 const Navbar = ({ user, setUser, isDarkMode, setIsDarkMode, doSearch }) => {
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState(null);
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    if (token) {
+      try {
+        const decodedUser = jwtDecode(token);
+        if (decodedUser) {
+          setCurrentUser(decodedUser.email);
+        }
+        console.log("Decoded User 1:", decodedUser);
+      } catch (error) {
+        console.log('Invalid token');
+      }
+    } else {
+      console.log("No token found");
+    }
+  }, [token]);  
 
   const [showDetails, setShowDetails] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
@@ -34,13 +51,15 @@ const Navbar = ({ user, setUser, isDarkMode, setIsDarkMode, doSearch }) => {
   // Sign out takes you to the home page
   const handleSignOut = () => {
     localStorage.removeItem('token');
+    setCurrentUser(null);
     setUser(null);
     navigate('/home');
   };
 
-  // Swich user takes you to the login screen
-  const handleSwichUser = () => {
+  // Switch user takes you to the login screen
+  const handleSwitchUser = () => {
     localStorage.removeItem('token');
+    setCurrentUser(null);
     setUser(null);
     navigate('/login-email');
   };
@@ -54,7 +73,7 @@ const Navbar = ({ user, setUser, isDarkMode, setIsDarkMode, doSearch }) => {
     navigate('/home');
   };
 
-  // Drak mode toggle 
+  // Dark mode toggle 
   const handleModeToggle = () => {
     setIsDarkMode(!isDarkMode);
     if (!isDarkMode) {
@@ -77,32 +96,32 @@ const Navbar = ({ user, setUser, isDarkMode, setIsDarkMode, doSearch }) => {
         <SearchBar doSearch={doSearch} />
       </div>
       <div className="navbar-right">
-        {user ? (
+        {currentUser ? (
           <>
-          <div alt="Upload Video" className="video-upload-icon" onClick={handleVideoUploadClick}>
-            <VideoIcon/>
-          </div>
+            <div alt="Upload Video" className="video-upload-icon" onClick={handleVideoUploadClick}>
+              <VideoIcon />
+            </div>
             <div className="profile-container" onClick={handleProfileClick}>
               <div className="profile-info">
-                <ProfilePicture user={user} />
-                <div className="profile-greeting">Hello {user.firstName}!</div>
+                <ProfilePicture user={currentUser} />
+                <div className="profile-greeting">Hello {currentUser.firstName}!</div>
               </div>
               {showDetails && (
                 <div className="profile-details">
-                  <p className="displayname">{user.displayName}</p>
-                  <ProfilePicture user={user} />
+                  <p className="displayname">{currentUser.displayName}</p>
+                  <ProfilePicture user={currentUser} />
                   <p className="name">
-                    {user.firstName} {user.lastName}
+                    {currentUser.firstName} {currentUser.lastName}
                   </p>
-                  <p className="email">{user.email}</p>
-                  <hr className="devider-line"></hr>
+                  <p className="email">{currentUser.email}</p>
+                  <hr className="divider-line"></hr>
                   <div>
                     <div className="signout" onClick={handleSignOut}>
                       Sign out
                     </div>
                   </div>
                   <div>
-                    <div className="signin" onClick={handleSwichUser}>
+                    <div className="signin" onClick={handleSwitchUser}>
                       Switch user
                     </div>
                   </div>
@@ -112,7 +131,7 @@ const Navbar = ({ user, setUser, isDarkMode, setIsDarkMode, doSearch }) => {
           </>
         ) : (
           <div className="profile-container" onClick={handleProfileClick}>
-            <div className="user-pic"><UserIcon/></div>
+            <div className="user-pic"><UserIcon /></div>
             <div className="profile-greeting">Sign in</div>
             {showDetails && (
               <div className="profile-details">
