@@ -31,7 +31,7 @@ function SignUpDisplay({ addUser }) {
     document.getElementById('fileInput').click();
   };
 
-  const handleNext = (e) => {
+  const handleNext = async (e) => {
     e.preventDefault();
     if (!displayName || !selectedFile) {
       setError('Please provide both a display name and a photo.');
@@ -45,8 +45,28 @@ function SignUpDisplay({ addUser }) {
         photo: preview,
         likedVideos: []
       };
-      addUser(user);
-      navigate('/home', { state: { user } }); // Navigate to /home with the user details
+      console.log('Sending user data to server:', user);
+
+      try {
+        const res = await fetch('http://localhost:8200/api/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(user)
+        });
+
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await res.json();
+        localStorage.setItem('token', data.token);
+        addUser(data);
+        navigate('/home', { state: { user: data } }); 
+      } catch (error) {
+        setError('An error occurred. Please try again later.');
+      }
     }
   };
 
