@@ -25,17 +25,13 @@ function SignUpEmail({ users }) {
           }
         });
 
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-
         const data = await res.json();
-        if (data) {
-          setError('A user with this email already exists.');
-        } else {
+        if (res.status === 404) {
           navigate('/signup-password', { state: { firstName, lastName, email } });
-        }
-      } catch (error) {
+        } else if (data) {
+          setError('A user with this email already exists.');
+        } 
+        }catch (error) {
         setError('Server error. Please try again later.');
       }
     } else {
