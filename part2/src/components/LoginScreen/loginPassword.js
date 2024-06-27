@@ -10,26 +10,63 @@ function LoginPassword({ setCurrentUser }) {
   const [enteredPassword, setEnteredPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  console.log("user", user);
 
   const handleNext = async (e) => {
     e.preventDefault();
+
+    setCurrentUser(user);
+    assignToken();
+    navigate('/home', { state: { user } });
+
+    // if (enteredPassword == user.password) {
+    //     setCurrentUser(user);
+    //     assignToken();
+    //     navigate('/home', { state: { user } });
+    //   } else {
+    //     setError('Password incorrect.');
+    //   }
+
+    // try {
+    //   const res = await fetch(`http://localhost:8200/api/users/${user.email}`, {
+    //     method: 'GET',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     }
+    //   });
+    //   if (res.ok) {
+    //     const data = await res.json();
+    //     setCurrentUser(user);
+    //     assignToken();
+    //     navigate('/home', { state: { user } });
+    //   } else {
+    //     setError('Password incorrect.');
+    //   }
+    // } catch (error) {
+    //   setError('An error occurred. Please try again later.');
+    // }
+  };
+
+  const assignToken = async () => {
     try {
-      const res = await fetch(`http://localhost:8200/api/users/${user.email}?password=${(enteredPassword)}`, {
-        method: 'GET',
+      const res = await fetch(`http://localhost:8200/api/tokens`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({email: user.email, password: user.password})
       });
-      if (res.ok) {
-        const data = await res.json();
-        localStorage.setItem('token', data.token);
-        setCurrentUser(user);
-        navigate('/home', { state: { user } });
-      } else {
-        setError('Password incorrect.');
+
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
       }
+
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      console.log("recieved token", data.token);
+      console.log("local storage token", localStorage.getItem('token'));
     } catch (error) {
-      setError('An error occurred. Please try again later.');
+      console.error('An error occurred. Please try again later.', error);
     }
   };
 

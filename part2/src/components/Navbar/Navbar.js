@@ -33,12 +33,14 @@ const Navbar = ({ user, setUser, isDarkMode, setIsDarkMode, doSearch }) => {
 
   // Sign out takes you to the home page
   const handleSignOut = () => {
+    localStorage.removeItem('token');
     setUser(null);
     navigate('/home');
   };
 
   // Swich user takes you to the login screen
   const handleSwichUser = () => {
+    localStorage.removeItem('token');
     setUser(null);
     navigate('/login-email');
   };
