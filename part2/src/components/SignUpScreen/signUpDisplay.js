@@ -45,7 +45,6 @@ function SignUpDisplay() {
         photo: preview,
         likedVideos: []
       };
-      console.log('Sending user data to server:', user);
 
       try {
         const res = await fetch('http://localhost:8200/api/users', {
@@ -64,6 +63,7 @@ function SignUpDisplay() {
         localStorage.setItem('token', data.token);
         assignToken(user);
         navigate('/home', { state: { user: data } }); 
+  
       } catch (error) {
         setError('An error occurred. Please try again later.');
       }
