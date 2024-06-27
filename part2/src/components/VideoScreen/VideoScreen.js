@@ -20,9 +20,9 @@ const VideoScreen = ({ users, setVideos, isDarkMode, setIsDarkMode, doSearch, se
         });
         const data = await response.json();
         setVideo(data);
-        console.log("video: ", video);
+        console.log("Fetched video: ", data);
       } catch (error) {
-        console.error('Error fetching user and video data:', error);
+        console.error('Error fetching video data:', error);
       }
     };
 
@@ -36,8 +36,7 @@ const VideoScreen = ({ users, setVideos, isDarkMode, setIsDarkMode, doSearch, se
         });
         const data = await res.json();
         setFetchedUser(data);
-        console.log("user: ", fetchedUser);
-        console.log("email: ", id);
+        console.log("Fetched user: ", data);
       } catch (error) {
         console.error('Error fetching user details:', error);
       }
