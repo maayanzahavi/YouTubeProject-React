@@ -30,19 +30,22 @@ const VideoUpload = ({ user }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (title && description && video && img && user && user.email) {
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('description', description);
-      formData.append('video', video);
-      formData.append('img', img);
-      formData.append('owner', user.email);
+      const newVideo = {
+        title: title,
+        description: description,
+        img: URL.createObjectURL(img),
+        video: URL.createObjectURL(video),
+        owner: user.email
+      };
 
       try {
         const res = await fetch(`http://localhost:8200/api/users/${user.email}/videos`, {
           method: 'POST',
-          body: formData
-        });
-
+         headers: { 
+          'Content-Type': 'application/json' 
+         },
+        body: JSON.stringify(newVideo)
+      });
         if (!res.ok) {
           throw new Error('Network response was not ok');
         }
