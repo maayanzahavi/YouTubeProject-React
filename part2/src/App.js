@@ -9,11 +9,12 @@ import SignUpPassword from './components/SignUpScreen/signUpPassword';
 import SignUpDisplay from './components/SignUpScreen/signUpDisplay';
 import HomePage from './components/HomePage/HomePage';
 import VideoScreen from './components/VideoScreen/VideoScreen';
-import UploadScreen from './components/UploadScreen/UploadScreen';
+import UploadScreen from './components/CreateVideos/UploadScreen/UploadScreen';
 import videosData from './data/videos.json';
 import usersData from './data/users.json';
 import UserPage from './components/UserPage/UserPage';
 import EditUser from './components/UserPage/EditUser/EditUser';
+import EditScreen from './components/CreateVideos/EditScreen/EditScreen';
 
 function App() {
   const [idCounter, setIdCounter] = useState(11);
@@ -84,6 +85,10 @@ function App() {
           <Route
             path="/video-upload"
             element={<UploadScreen videos={videos} setVideos={setVideos} id={idCounter} setIdCounter={setIdCounter} user={currentUser} />}
+          />
+          <Route
+            path="/home/api/users/:id/videos/:pid/edit"
+            element={<EditScreen videos={videos} setVideos={setVideos} id={idCounter} setIdCounter={setIdCounter} user={currentUser} />}
           />
         </Routes>
       </BrowserRouter>

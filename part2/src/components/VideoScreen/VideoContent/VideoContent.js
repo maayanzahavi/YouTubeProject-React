@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import './VideoContent.css';
 import VideoAction from './VideoAction/VideoAction';
 import CommentSection from './CommentSection/CommentSection';
-import VideoEdit from '../../UploadScreen/VideoCreate/VideoEdit';
 import ProfilePicture from '../../ProfilePicture/ProfilePicture';
 import ShareWindow from './ShareWindow/ShareWindow';
 import ShareIcon from '../../../assets/icons/ShareIcon';
@@ -14,12 +13,13 @@ import IsLikedIcon from '../../../assets/icons/isLikedIcon';
 
 const VideoContent = ({ initialVideo, owner, users, currentUser, setVideos }) => {
   const navigate = useNavigate();
+  const [id, setId] = useState(initialVideo.owner);
+  const [pid, setPid] = useState(initialVideo._id);
   const [video, setVideo] = useState(initialVideo);
   const [currentLikeIcon, setCurrentLikeIcon] = useState(
     currentUser && currentUser.likedVideos.includes(initialVideo.id)
   );
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const [isShareWindowVisible, setIsShareWindowVisible] = useState(false);
   
   // Handles likes
@@ -55,27 +55,29 @@ const VideoContent = ({ initialVideo, owner, users, currentUser, setVideos }) =>
     setDropdownVisible(!dropdownVisible);
   };
 
-  // Handle video edit 
+  // Handle video edit
   const handleEdit = () => {
-    setIsEditing(true);
-    setDropdownVisible(false);
-  };
-
-  // Updates the video after video edit
-  const handleSave = (updatedVideo) => {
-    setVideo(updatedVideo);
-    setVideos((prevVideos) => prevVideos.map((v) => (v.id === updatedVideo.id ? updatedVideo : v)));
-    setIsEditing(false);
-  };
-
-  const handleCancel = () => {
-    setIsEditing(false);
+    navigate(`/home/api/users/${video.owner}/videos/${video._id}/edit`);
   };
 
   // Handles video delete
-  const handleDelete = () => {
-    setVideos((prevVideos) => prevVideos.filter((v) => v.id !== video.id));
-    navigate('/home');
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      navigate(`/home`);
+    } catch (error) {
+      console.error('An error occurred while deleting the video. Please try again later.', error);
+    }
   };
 
   const handleShare = () => {
@@ -85,10 +87,6 @@ const VideoContent = ({ initialVideo, owner, users, currentUser, setVideos }) =>
   const closeShareWindow = () => {
     setIsShareWindowVisible(false);
   };
-
-  if (isEditing) {
-    return <VideoEdit video={video} setVideos={setVideos} onSave={handleSave} onCancel={handleCancel} />;
-  }
 
   return (
     <div className="video-page-container">

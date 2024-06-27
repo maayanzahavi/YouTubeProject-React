@@ -1,5 +1,4 @@
-// Navigation bar
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import './Toggle/Toggle.css'; 
 import { useNavigate, Link } from 'react-router-dom';
@@ -11,35 +10,69 @@ import Toggle from './Toggle/Toggle';
 import SearchBar from './SearchBar';
 import UserIcon from '../../assets/icons/UserIcon';
 import VideoIcon from '../../assets/icons/VideoIcon';
+import { jwtDecode } from 'jwt-decode'; 
 
-
-const Navbar = ({ user, setUser, isDarkMode, setIsDarkMode, doSearch }) => {
+const Navbar = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState(null);
+  const [userEmail, setUserEmail] = useState('');
+  const token = localStorage.getItem('token');
+  
+  useEffect(() => {
+    if (token) {
+      try {
+        const decodedUser = jwtDecode(token);
+        if (decodedUser) {
+          setUserEmail(decodedUser.email);
+        }
+      } catch (error) {
+      }
+    } else {
+    }
+  }, [token]);
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      if (userEmail) {
+        try {
+          const res = await fetch(`http://localhost:8200/api/users/${userEmail}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          const data = await res.json();
+          setCurrentUser(data);
+        } catch (error) {
+          console.error('Error fetching user details:', error);
+        }
+      }
+    };
+    fetchUserDetails();
+  }, [userEmail]); 
 
   const [showDetails, setShowDetails] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
   const [currentLogo, setCurrentLogo] = useState(isDarkMode ? darkmodeLogo : logo);
 
-  // Handle sidebar showing 
   const handleSidebarToggle = (e) => {
     e.preventDefault();
     setShowSidebar(!showSidebar);
   };
 
-  // When clicking the profile pic
   const handleProfileClick = () => {
     setShowDetails(!showDetails);
   };
 
-  // Sign out takes you to the home page
   const handleSignOut = () => {
-    setUser(null);
+    localStorage.removeItem('token');
+    setCurrentUser(null);
     navigate('/home');
   };
 
-  // Swich user takes you to the login screen
-  const handleSwichUser = () => {
-    setUser(null);
+  const handleSwitchUser = () => {
+    localStorage.removeItem('token');
+    setCurrentUser(null);
     navigate('/login-email');
   };
 
@@ -47,19 +80,13 @@ const Navbar = ({ user, setUser, isDarkMode, setIsDarkMode, doSearch }) => {
     navigate('/video-upload');
   };
 
-  // Clicking on the logo takes you to home page
   const handleLogoClick = () => {
     navigate('/home');
   };
 
-  // Drak mode toggle 
   const handleModeToggle = () => {
     setIsDarkMode(!isDarkMode);
-    if (!isDarkMode) {
-      setCurrentLogo(darkmodeLogo);
-    } else {
-      setCurrentLogo(logo);
-    }
+    setCurrentLogo(!isDarkMode ? darkmodeLogo : logo);
   };
   
   return (
@@ -75,32 +102,32 @@ const Navbar = ({ user, setUser, isDarkMode, setIsDarkMode, doSearch }) => {
         <SearchBar doSearch={doSearch} />
       </div>
       <div className="navbar-right">
-        {user ? (
+        {currentUser ? (
           <>
-          <div alt="Upload Video" className="video-upload-icon" onClick={handleVideoUploadClick}>
-            <VideoIcon/>
-          </div>
+            <div alt="Upload Video" className="video-upload-icon" onClick={handleVideoUploadClick}>
+              <VideoIcon />
+            </div>
             <div className="profile-container" onClick={handleProfileClick}>
               <div className="profile-info">
-                <ProfilePicture user={user} />
-                <div className="profile-greeting">Hello {user.firstName}!</div>
+                <ProfilePicture user={currentUser} />
+                <div className="profile-greeting">Hello {currentUser.firstName}!</div>
               </div>
               {showDetails && (
                 <div className="profile-details">
-                  <p className="displayname">{user.displayName}</p>
-                  <ProfilePicture user={user} />
+                  <p className="displayname">{currentUser.displayName}</p>
+                  <ProfilePicture user={currentUser} />
                   <p className="name">
-                    {user.firstName} {user.lastName}
+                    {currentUser.firstName} {currentUser.lastName}
                   </p>
-                  <p className="email">{user.email}</p>
-                  <hr className="devider-line"></hr>
+                  <p className="email">{currentUser.email}</p>
+                  <hr className="divider-line"></hr>
                   <div>
                     <div className="signout" onClick={handleSignOut}>
                       Sign out
                     </div>
                   </div>
                   <div>
-                    <div className="signin" onClick={handleSwichUser}>
+                    <div className="signin" onClick={handleSwitchUser}>
                       Switch user
                     </div>
                   </div>
@@ -110,7 +137,7 @@ const Navbar = ({ user, setUser, isDarkMode, setIsDarkMode, doSearch }) => {
           </>
         ) : (
           <div className="profile-container" onClick={handleProfileClick}>
-            <div className="user-pic"><UserIcon/></div>
+            <div className="user-pic"><UserIcon /></div>
             <div className="profile-greeting">Sign in</div>
             {showDetails && (
               <div className="profile-details">

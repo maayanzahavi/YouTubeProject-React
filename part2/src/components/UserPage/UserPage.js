@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import VideoCollection from '../VideoCollection/VideoCollection';
-import ProfileDetails from '../ProfileDetails/ProfileDetails';
+import ProfileDetails from './ProfileDetails/ProfileDetails';
 import './UserPage.css';
 
 const UserPage = ({ users, setUser, setVideos, isDarkMode, setIsDarkMode, currentUser }) => {

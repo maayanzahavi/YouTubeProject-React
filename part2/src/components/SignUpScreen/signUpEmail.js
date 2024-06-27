@@ -4,7 +4,7 @@ import './signUp.css';
 import logo from '../../assets/logo.png';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-function SignUpEmail({ users }) {
+function SignUpEmail() {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
 

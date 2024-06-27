@@ -4,7 +4,7 @@ import './signUp.css';
 import logo from '../../assets/logo.png';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-function SignUpDisplay({ addUser }) {
+function SignUpDisplay() {
   const navigate = useNavigate();
   const location = useLocation();
   const { firstName = '', lastName = '', email = '', password = '' } = location.state || {};
@@ -62,11 +62,34 @@ function SignUpDisplay({ addUser }) {
 
         const data = await res.json();
         localStorage.setItem('token', data.token);
-        addUser(data);
+        assignToken(user);
         navigate('/home', { state: { user: data } }); 
       } catch (error) {
         setError('An error occurred. Please try again later.');
       }
+    }
+  };
+
+  const assignToken = async (user) => {
+    try {
+      const res = await fetch(`http://localhost:8200/api/tokens`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email: user.email, password: user.password})
+      });
+
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      console.log("recieved token", data.token);
+      console.log("local storage token", localStorage.getItem('token'));
+    } catch (error) {
+      console.error('An error occurred. Please try again later.', error);
     }
   };
 

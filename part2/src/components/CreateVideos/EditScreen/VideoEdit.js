@@ -1,34 +1,57 @@
-// Component for edit videos
 import React, { useState } from 'react';
-import './VideoUpload.css';
+import { useNavigate } from 'react-router-dom';
 
-const VideoEdit = ({ video, setVideos, onSave, onCancel }) => {
-  const [title, setTitle] = useState(video.title);
-  const [description, setDescription] = useState(video.description);
+const VideoEdit = ({ video }) => {
+  const [pid, setPid] = useState(video._id);
+  const [id, setId] = useState(video.owner);
+  const [title, setTitle] = useState(video?.title || '');
+  const [description, setDescription] = useState(video?.description || '');
   const [img, setImg] = useState(null);
+  const navigate = useNavigate();
 
   // Changing image
   const handleImageChange = (e) => {
     setImg(e.target.files[0]);
   };
 
+  const handleClose = () => {
+    navigate(`/home/api/users/${video.owner}/videos/${video._id}`);
+  };
+
   // Updates the video when hitting save
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedVideo = {
-      ...video,
-      title,
-      description,
+      title: title,
+      description: description,
       img: img ? URL.createObjectURL(img) : video.img,
     };
-    setVideos((prevVideos) => prevVideos.map((v) => (v.id === video.id ? updatedVideo : v)));
-    onSave(updatedVideo);
+    await updateVideo(updatedVideo);
+    navigate(`/home/api/users/${video.owner}/videos/${video._id}`);
+  };
+
+  const updateVideo = async (updatedVideo) => {
+    try {
+      const res = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedVideo)
+      });
+
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      console.error('An error occurred. Please try again later.', error);
+    }
   };
 
   return (
     <div className="video-upload-container">
       <div className="video-upload-box">
-        <button className="close-button" onClick={onCancel}>
+        <button className="close-button" onClick={handleClose}>
           &times;
         </button>
         <h2 className="video-upload-title">Edit Video</h2>
