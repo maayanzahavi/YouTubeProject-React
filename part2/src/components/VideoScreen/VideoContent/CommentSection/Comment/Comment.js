@@ -5,7 +5,7 @@ import EditIcon from '../../../../../assets/icons/EditIcon';
 import SaveIcon from '../../../../../assets/icons/CheckIcon';
 import ProfilePicture from '../../../../ProfilePicture/ProfilePicture';
 
-const Comment = ({ userEmail, userName, profilePic, date, content, onDelete, onEdit }) => {
+const Comment = ({ userName, profilePic, date, content, onDelete, onEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(content);
 

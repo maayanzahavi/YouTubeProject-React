@@ -25,7 +25,7 @@ const VideoSnapshot = ({ video }) => {
       }
     };
     fetchVideoOwner();
-  }, []); 
+  }, [video.owner]); 
 
   return (
     <button className="video-button">

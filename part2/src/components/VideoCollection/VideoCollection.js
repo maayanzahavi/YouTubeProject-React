@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 function VideoCollection({ videos }) {
   const navigate = useNavigate();
+  if (videos.length === 0) {
+    return <div className="normal-text">No videos found</div>;
+  }
   const handleVideoClick = (video) => {
     // Increase views
     const updateViews = async () => {
@@ -17,8 +20,7 @@ function VideoCollection({ videos }) {
           // },
           headers: {
             'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({})
+          }
         });
       } catch (error) {
         console.error('Error setting likes:', error);
@@ -31,7 +33,7 @@ function VideoCollection({ videos }) {
   };
 
   const videoList = videos.map((video, index) => (
-    <div key={index} onClick={() => handleVideoClick(video)}>
+    <div key={video._id} onClick={() => handleVideoClick(video)}>
       <VideoSnapshot video={video} />
     </div>
   ));

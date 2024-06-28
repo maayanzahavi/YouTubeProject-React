@@ -6,7 +6,7 @@ import ProfileDetails from './ProfileDetails/ProfileDetails';
 import {jwtDecode} from 'jwt-decode'; 
 import './UserPage.css';
 
-const UserPage = ({ users, setUser, setVideos, isDarkMode, setIsDarkMode }) => {
+const UserPage = ({ isDarkMode, setIsDarkMode }) => {
   const { id } = useParams();
   const [userDetails, setUserDetails] = useState(null);
   const [videoList, setVideoList] = useState([]);
@@ -75,12 +75,12 @@ const UserPage = ({ users, setUser, setVideos, isDarkMode, setIsDarkMode }) => {
 
   return (
     <div className="main-screen">
-      <Navbar user={currentUser} setUser={setUser} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+      <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       <div className="main-content">
         <ProfileDetails user={userDetails} currentUser={currentUser} />
         <div className="separator"></div>
         <div className="video-content">
-          <VideoCollection videos={videoList} users={users} setVideos={setVideos} />
+          <VideoCollection videos={videoList} />
         </div>
       </div>
     </div>
