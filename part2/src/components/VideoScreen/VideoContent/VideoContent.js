@@ -19,6 +19,7 @@ const VideoContent = ({ video, owner, currentUser }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isShareWindowVisible, setIsShareWindowVisible] = useState(false);
 console.log("current user", currentUser);
+console.log("video owner", owner);
 
   useEffect(() => {
     const isLikedByUser = async () => {
@@ -43,7 +44,7 @@ console.log("current user", currentUser);
     if (currentUser) {
       isLikedByUser();
     }
-  }, [id, pid, currentUser]);
+  }, [id, pid, currentUser, video]);
 
   // When clicking like
   const handleLike = async (e) => {
@@ -60,13 +61,13 @@ console.log("current user", currentUser);
     try {
       const res = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}/likes`, {
         method: 'PATCH',
-        // headers: {
-        //   'Content-Type': 'application/json',
-        //   'Authorization': `Bearer ${currentUser.token}` // Ensure to pass the token here
-        // },
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${currentUser.token}` // Ensure to pass the token here
         },
+        // headers: {
+        //   'Content-Type': 'application/json',
+        // },
         body: JSON.stringify({ userEmail: currentUser.email })
       });
     } catch (error) {
@@ -128,9 +129,11 @@ console.log("current user", currentUser);
             <VideoAction icon={<ShareIcon />} label="Share" action={handleShare} />
             <VideoAction icon={<IsLikedIcon isLiked={isLiked} />} label={`${video.likes} likes`} action={handleLike} />
             <div className="dropdown-container" style={{ position: 'relative' }}>
+              {currentUser && owner && (currentUser.email === owner.email) && (
               <button className="three-dots" onClick={toggleDropdown}>
                 <DotsIcon />
               </button>
+              )}
               {dropdownVisible && (
                 <div className="dropdown-menu">
                   <button onClick={handleEdit}>

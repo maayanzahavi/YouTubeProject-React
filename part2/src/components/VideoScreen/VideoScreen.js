@@ -45,7 +45,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   }, [pid]);
 
   useEffect(() => {
-    const fetchCurrentUserDetails = async () => {
+    const fetchCurrentUser = async () => {
       if (userEmail) {
         try {
           const res = await fetch(`http://localhost:8200/api/users/${userEmail}`, {
@@ -61,7 +61,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
         }
       }
     };
-    fetchCurrentUserDetails();
+    fetchCurrentUser();
   }, [userEmail]); 
 
   useEffect(() => {
@@ -82,45 +82,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
       }
     };
     fetchVideoOwner();
-  }, [userEmail]); 
-
-  //   const fetchCurrentUserDetails = async () => {
-  //     console.log("userEmail:", userEmail);
-  //     try {
-  //       const res = await fetch(`http://localhost:8200/api/users/${userEmail}`, {
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json'
-  //         }
-  //       });
-  //       const data = await res.json();
-  //       setCurrentUser(data);
-  //     } catch (error) {
-  //       console.error('Error fetching user details:', error);
-  //     }
-  //   };
-
-  //   const fetchVideoOwner = async () => {
-  //     try {
-  //       const res = await fetch(`http://localhost:8200/api/users/${id}`, {
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json'
-  //         }
-  //       });
-  //       const data = await res.json();
-  //       setVideoOwner(data);
-  //     } catch (error) {
-  //       console.error('Error fetching user details:', error);
-  //     }
-  //   };
-
-  //   fetchVideoDetails();
-  //   fetchCurrentUserDetails();
-  //   console.log("current user:", currentUser);
-  //   fetchVideoOwner();
-  //   console.log("video owner:", videoOwner);
-  // }, [pid, id, userEmail]);
+  }, [id, pid, video]); 
 
   if (!video) {
     return <p>Video not found</p>;
