@@ -13,70 +13,65 @@ import IsLikedIcon from '../../../assets/icons/isLikedIcon';
 
 const VideoContent = ({ video, owner, currentUser }) => {
   const navigate = useNavigate();
-  const [id, setId] = useState(video.owner);
-  const [pid, setPid] = useState(video._id);
   const [isLiked, setIsLiked] = useState(false);
+  const [likes, setLikes] = useState(video.likes);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isShareWindowVisible, setIsShareWindowVisible] = useState(false);
-console.log("current user", currentUser);
-console.log("video owner", owner);
 
+  // Check if the video is liked by the current user
   useEffect(() => {
     const isLikedByUser = async () => {
-      try {
-        const res = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}/likes`, {
-          method: 'GET',
-          // headers: {
-          //   'Content-Type': 'application/json',
-          //   'Authorization': `Bearer ${currentUser.token}` // Ensure to pass the token here
-          // }
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ userEmail: currentUser.email })
-        });
-        const data = await res.json();
-        setIsLiked(data);
-      } catch (error) {
-        console.error('Error fetching is liked:', error);
+      if (currentUser) {
+        try {
+          const res = await fetch(`http://localhost:8200/api/users/${video.owner}/videos/${video._id}/likes/${currentUser.email}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          });
+          const data = await res.json();
+          setIsLiked(data.isLiked);
+        } catch (error) {
+          console.error('Error fetching is liked:', error);
+        }
       }
     };
-    if (currentUser) {
-      isLikedByUser();
-    }
-  }, [id, pid, currentUser, video]);
 
-  // When clicking like
+    isLikedByUser();
+  }, [video.owner, video._id, currentUser]);
+
+  // Handle like action
   const handleLike = async (e) => {
     e.preventDefault();
-    setIsLiked(!isLiked);
 
-    // If the user is not logged in, go to login screen
     if (!currentUser) {
       navigate('/login-email');
       return;
     }
 
-    // Update likes
     try {
-      const res = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}/likes`, {
+      const res = await fetch(`http://localhost:8200/api/users/${video.owner}/videos/${video._id}/likes`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${currentUser.token}` // Ensure to pass the token here
+          'Authorization': `Bearer ${currentUser.token}`
         },
-        // headers: {
-        //   'Content-Type': 'application/json',
-        // },
         body: JSON.stringify({ userEmail: currentUser.email })
       });
+
+      if (res.ok) {
+        setIsLiked(!isLiked);
+        setLikes(isLiked ? likes - 1 : likes + 1);
+      } else {
+        throw new Error('Network response was not ok');
+      }
     } catch (error) {
       console.error('Error setting likes:', error);
     }
   };
 
   const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
+    setDropdownVisible((prevVisible) => !prevVisible);
   };
 
   // Handle video edit
@@ -84,14 +79,14 @@ console.log("video owner", owner);
     navigate(`/home/api/users/${video.owner}/videos/${video._id}/edit`);
   };
 
-  // Handles video delete
+  // Handle video delete
   const handleDelete = async () => {
     try {
-      const res = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}`, {
+      const res = await fetch(`http://localhost:8200/api/users/${video.owner}/videos/${video._id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${currentUser.token}` // Ensure to pass the token here
+          'Authorization': `Bearer ${currentUser.token}`
         }
       });
 
@@ -127,12 +122,12 @@ console.log("video owner", owner);
           <h1 className="video-page-title">{video.title}</h1>
           <div className="video-actions">
             <VideoAction icon={<ShareIcon />} label="Share" action={handleShare} />
-            <VideoAction icon={<IsLikedIcon isLiked={isLiked} />} label={`${video.likes} likes`} action={handleLike} />
+            <VideoAction icon={<IsLikedIcon isLiked={isLiked} />} label={`${likes} likes`} action={handleLike} />
             <div className="dropdown-container" style={{ position: 'relative' }}>
               {currentUser && owner && (currentUser.email === owner.email) && (
-              <button className="three-dots" onClick={toggleDropdown}>
-                <DotsIcon />
-              </button>
+                <button className="three-dots" onClick={toggleDropdown}>
+                  <DotsIcon />
+                </button>
               )}
               {dropdownVisible && (
                 <div className="dropdown-menu">
