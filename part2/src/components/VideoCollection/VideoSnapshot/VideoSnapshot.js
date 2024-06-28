@@ -5,8 +5,9 @@ import ProfilePicture from '../../ProfilePicture/ProfilePicture';
 
 const VideoSnapshot = ({ video }) => {
   const [owner, setOwner] = useState('');
+
   // Finds the video's owner
-  
+  useEffect(() => {
     const fetchVideoOwner = async () => {
       if (video.owner) {
         try {
@@ -24,6 +25,7 @@ const VideoSnapshot = ({ video }) => {
       }
     };
     fetchVideoOwner();
+  }, []); 
 
   return (
     <button className="video-button">
