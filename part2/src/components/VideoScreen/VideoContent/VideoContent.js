@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './VideoContent.css';
 import VideoAction from './VideoAction/VideoAction';
@@ -11,20 +11,44 @@ import EditIcon from '../../../assets/icons/EditIcon';
 import DeleteIcon from '../../../assets/icons/DeleteIcon';
 import IsLikedIcon from '../../../assets/icons/isLikedIcon';
 
-const VideoContent = ({ initialVideo, owner, users, currentUser, setVideos }) => {
+const VideoContent = ({ video, owner, currentUser }) => {
   const navigate = useNavigate();
-  const [id, setId] = useState(initialVideo.owner);
-  const [pid, setPid] = useState(initialVideo._id);
-  const [video, setVideo] = useState(initialVideo);
-  const [currentLikeIcon, setCurrentLikeIcon] = useState(
-    currentUser && currentUser.likedVideos.includes(initialVideo.id)
-  );
+  const [id, setId] = useState(video.owner);
+  const [pid, setPid] = useState(video._id);
+  const [isLiked, setIsLiked] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isShareWindowVisible, setIsShareWindowVisible] = useState(false);
-  
-  // Handles likes
-  const handleLike = (e) => {
+console.log("current user", currentUser);
+
+  useEffect(() => {
+    const isLikedByUser = async () => {
+      try {
+        const res = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}/likes`, {
+          method: 'GET',
+          // headers: {
+          //   'Content-Type': 'application/json',
+          //   'Authorization': `Bearer ${currentUser.token}` // Ensure to pass the token here
+          // }
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userEmail: currentUser.email })
+        });
+        const data = await res.json();
+        setIsLiked(data);
+      } catch (error) {
+        console.error('Error fetching is liked:', error);
+      }
+    };
+    if (currentUser) {
+      isLikedByUser();
+    }
+  }, [id, pid, currentUser]);
+
+  // When clicking like
+  const handleLike = async (e) => {
     e.preventDefault();
+    setIsLiked(!isLiked);
 
     // If the user is not logged in, go to login screen
     if (!currentUser) {
@@ -32,23 +56,22 @@ const VideoContent = ({ initialVideo, owner, users, currentUser, setVideos }) =>
       return;
     }
 
-    const isLiked = currentUser.likedVideos.includes(video.id);
-    let updatedLikes;
-
-    // Check if the video is currently liked by the user or not
-    if (isLiked) {
-      updatedLikes = video.likes - 1;
-      currentUser.likedVideos = currentUser.likedVideos.filter((id) => id !== video.id);
-    } else {
-      updatedLikes = video.likes + 1;
-      currentUser.likedVideos.push(video.id);
+    // Update likes
+    try {
+      const res = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}/likes`, {
+        method: 'PATCH',
+        // headers: {
+        //   'Content-Type': 'application/json',
+        //   'Authorization': `Bearer ${currentUser.token}` // Ensure to pass the token here
+        // },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userEmail: currentUser.email })
+      });
+    } catch (error) {
+      console.error('Error setting likes:', error);
     }
-
-    // Set the new number of likes for the video
-    const updatedVideo = { ...video, likes: updatedLikes };
-    setVideo(updatedVideo);
-    setCurrentLikeIcon(!currentLikeIcon);
-    setVideos((prevVideos) => prevVideos.map((v) => (v.id === video.id ? updatedVideo : v)));
   };
 
   const toggleDropdown = () => {
@@ -66,7 +89,8 @@ const VideoContent = ({ initialVideo, owner, users, currentUser, setVideos }) =>
       const res = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}`, {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${currentUser.token}` // Ensure to pass the token here
         }
       });
 
@@ -102,7 +126,7 @@ const VideoContent = ({ initialVideo, owner, users, currentUser, setVideos }) =>
           <h1 className="video-page-title">{video.title}</h1>
           <div className="video-actions">
             <VideoAction icon={<ShareIcon />} label="Share" action={handleShare} />
-            <VideoAction icon={<IsLikedIcon isLiked={currentLikeIcon} />} label={`${video.likes} likes`} action={handleLike} />
+            <VideoAction icon={<IsLikedIcon isLiked={isLiked} />} label={`${video.likes} likes`} action={handleLike} />
             <div className="dropdown-container" style={{ position: 'relative' }}>
               <button className="three-dots" onClick={toggleDropdown}>
                 <DotsIcon />
@@ -131,7 +155,7 @@ const VideoContent = ({ initialVideo, owner, users, currentUser, setVideos }) =>
         </div>
         <p className="video-description">{video.description}</p>
       </div>
-      <CommentSection video={video} user={currentUser} setVideos={setVideos} users={users} />
+      <CommentSection video={video} user={currentUser} />
       {isShareWindowVisible && <ShareWindow onClose={closeShareWindow} />}
     </div>
   );

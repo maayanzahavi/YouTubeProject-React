@@ -3,13 +3,30 @@ import Navbar from '../Navbar/Navbar';
 import VideoContent from './VideoContent/VideoContent';
 import { useParams } from 'react-router-dom';
 import './VideoScreen.css';
+import { jwtDecode } from 'jwt-decode';
 
-const VideoScreen = ({ users, setVideos, isDarkMode, setIsDarkMode, doSearch, setUser, currentUser }) => {
+const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   const { id, pid } = useParams(); 
-  const [fetchedUser, setFetchedUser] = useState(null);
+  const [videoOwner, setVideoOwner] = useState(null);
   const [video, setVideo] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [userEmail, setUserEmail] = useState('');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
+    if (token) {
+      try {
+        const decodedUser = jwtDecode(token);
+        if (decodedUser) {
+          setUserEmail(decodedUser.email);
+        }
+      } catch (error) {
+      }
+    } else {
+    }
+  }, [token, id, pid]);
+
+    useEffect(() => {
     const fetchVideoDetails = async () => {
       try {
         const response = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}`, {
@@ -20,31 +37,90 @@ const VideoScreen = ({ users, setVideos, isDarkMode, setIsDarkMode, doSearch, se
         });
         const data = await response.json();
         setVideo(data);
-        console.log("Fetched video: ", data);
       } catch (error) {
         console.error('Error fetching video data:', error);
       }
     };
+    fetchVideoDetails();
+  }, [pid]);
 
-    const fetchUserDetails = async () => {
-      try {
-        const res = await fetch(`http://localhost:8200/api/users/${id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        const data = await res.json();
-        setFetchedUser(data);
-        console.log("Fetched user: ", data);
-      } catch (error) {
-        console.error('Error fetching user details:', error);
+  useEffect(() => {
+    const fetchCurrentUserDetails = async () => {
+      if (userEmail) {
+        try {
+          const res = await fetch(`http://localhost:8200/api/users/${userEmail}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          const data = await res.json();
+          setCurrentUser(data);
+        } catch (error) {
+          console.error('Error fetching user details:', error);
+        }
       }
     };
+    fetchCurrentUserDetails();
+  }, [userEmail]); 
 
-    fetchVideoDetails();
-    fetchUserDetails();
-  }, [pid, id]);
+  useEffect(() => {
+    const fetchVideoOwner = async () => {
+      if (userEmail) {
+        try {
+          const res = await fetch(`http://localhost:8200/api/users/${id}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          const data = await res.json();
+          setVideoOwner(data);
+        } catch (error) {
+          console.error('Error fetching user details:', error);
+        }
+      }
+    };
+    fetchVideoOwner();
+  }, [userEmail]); 
+
+  //   const fetchCurrentUserDetails = async () => {
+  //     console.log("userEmail:", userEmail);
+  //     try {
+  //       const res = await fetch(`http://localhost:8200/api/users/${userEmail}`, {
+  //         method: 'GET',
+  //         headers: {
+  //           'Content-Type': 'application/json'
+  //         }
+  //       });
+  //       const data = await res.json();
+  //       setCurrentUser(data);
+  //     } catch (error) {
+  //       console.error('Error fetching user details:', error);
+  //     }
+  //   };
+
+  //   const fetchVideoOwner = async () => {
+  //     try {
+  //       const res = await fetch(`http://localhost:8200/api/users/${id}`, {
+  //         method: 'GET',
+  //         headers: {
+  //           'Content-Type': 'application/json'
+  //         }
+  //       });
+  //       const data = await res.json();
+  //       setVideoOwner(data);
+  //     } catch (error) {
+  //       console.error('Error fetching user details:', error);
+  //     }
+  //   };
+
+  //   fetchVideoDetails();
+  //   fetchCurrentUserDetails();
+  //   console.log("current user:", currentUser);
+  //   fetchVideoOwner();
+  //   console.log("video owner:", videoOwner);
+  // }, [pid, id, userEmail]);
 
   if (!video) {
     return <p>Video not found</p>;
@@ -53,15 +129,13 @@ const VideoScreen = ({ users, setVideos, isDarkMode, setIsDarkMode, doSearch, se
   return (
     <div className="main-screen">
       <Navbar 
-        user={currentUser} 
         isDarkMode={isDarkMode} 
         setIsDarkMode={setIsDarkMode} 
         doSearch={doSearch} 
-        setUser={setUser} 
       />
       <div className="main-content">
         <div className="video-screen-content">
-          <VideoContent initialVideo={video} owner={fetchedUser} users={users} currentUser={fetchedUser} setVideos={setVideos} />
+          <VideoContent video={video} owner={videoOwner} currentUser={currentUser}/>
         </div>
       </div>
     </div>

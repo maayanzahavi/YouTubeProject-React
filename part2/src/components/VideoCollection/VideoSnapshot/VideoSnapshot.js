@@ -1,11 +1,30 @@
 // Component for mini video display
 import './VideoSnapshot.css';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ProfilePicture from '../../ProfilePicture/ProfilePicture';
 
-const VideoSnapshot = ({ video, users }) => {
+const VideoSnapshot = ({ video }) => {
+  const [owner, setOwner] = useState('');
   // Finds the video's owner
-  const owner = users.find((user) => user.email === video.owner);
+  useEffect(() => {
+    const fetchVideoOwner = async () => {
+      if (video.owner) {
+        try {
+          const res = await fetch(`http://localhost:8200/api/users/${video.owner}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          const data = await res.json();
+          setOwner(data);
+        } catch (error) {
+          console.error('Error fetching user details:', error);
+        }
+      }
+    };
+    fetchVideoOwner();
+  }, [video]); 
 
   return (
     <button className="video-button">
