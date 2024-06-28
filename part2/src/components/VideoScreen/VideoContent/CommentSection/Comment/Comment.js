@@ -1,4 +1,3 @@
-// Comment component
 import React, { useState } from 'react';
 import './Comment.css';
 import DeleteIcon from '../../../../../assets/icons/DeleteIcon';
@@ -6,33 +5,25 @@ import EditIcon from '../../../../../assets/icons/EditIcon';
 import SaveIcon from '../../../../../assets/icons/CheckIcon';
 import ProfilePicture from '../../../../ProfilePicture/ProfilePicture';
 
-const Comment = ({ userEmail, users, date, content, onDelete, onEdit }) => {
+const Comment = ({ userEmail, userName, profilePic, date, content, onDelete, onEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(content);
 
-  // Set the comment to editing mode
   const handleEdit = () => {
     setIsEditing(true);
   };
 
-  // Update the comment
   const handleSave = () => {
     onEdit(editContent);
     setIsEditing(false);
   };
 
-  const owner = users.find((user) => user.email === userEmail);
-
-  if (!owner) {
-    return null; 
-  }
-
   return (
     <div className="comment-item">
-      <ProfilePicture user={owner} />
+      <ProfilePicture user={{ displayName: userName, photo: profilePic }} className="comment-pic" />
       <div className="comment-content">
         <div className="comment-header">
-          <span className="comment-name">{owner.displayName}</span>
+          <span className="comment-name">{userName}</span>
           <span className="comment-date">{date}</span>
         </div>
         {isEditing ? (
@@ -47,7 +38,7 @@ const Comment = ({ userEmail, users, date, content, onDelete, onEdit }) => {
         )}
         <div className="comment-actions-container">
           <button className="comment-action" onClick={onDelete}>
-            <DeleteIcon/>
+            <DeleteIcon />
           </button>
           {isEditing ? (
             <button className="comment-action" onClick={handleSave}>
