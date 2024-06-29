@@ -88,7 +88,7 @@ const VideoContent = ({ video, owner, currentUser }) => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${currentUser.token}`
+          'authorization': 'bearer ' + token
         }
       });
 
@@ -155,7 +155,7 @@ const VideoContent = ({ video, owner, currentUser }) => {
         </div>
         <p className="video-description">{video.description}</p>
       </div>
-      <CommentSection video={video} user={currentUser} />
+      <CommentSection video={video} currentUser={currentUser} />
       {isShareWindowVisible && <ShareWindow onClose={closeShareWindow} />}
     </div>
   );

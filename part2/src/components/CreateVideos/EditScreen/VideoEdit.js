@@ -8,6 +8,7 @@ const VideoEdit = ({ video }) => {
   const [description, setDescription] = useState(video?.description || '');
   const [img, setImg] = useState(null);
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
 
   // Changing image
   const handleImageChange = (e) => {
@@ -35,7 +36,8 @@ const VideoEdit = ({ video }) => {
       const res = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}`, {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'authorization': 'bearer ' + token
         },
         body: JSON.stringify(updatedVideo)
       });

@@ -8,22 +8,9 @@ const CommentSection = ({ video, currentUser }) => {
   const [newComment, setNewComment] = useState('');
   const navigate = useNavigate();
 
-  // Temporary hardcoded currentUser for testing purposes
-  const defaultUser = {
-    _id: '6672fd60d89afd77ada1db0a',
-    firstName: 'Maayan',
-    lastName: 'Zahavi',
-    email: 'maayan@gmail.com',
-    displayName: 'MaayanZ',
-    photo: '/profilePics/maayan.png',
-    likedVideos: []
-  };
-
-  const user = currentUser || defaultUser;
-
   const fetchComments = async () => {
     try {
-      const response = await fetch(`http://localhost:8200/api/users/${user.email}/videos/${video._id}/comments`, {
+      const response = await fetch(`http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -43,7 +30,7 @@ const CommentSection = ({ video, currentUser }) => {
 
   useEffect(() => {
     fetchComments();
-  }, [video._id, user.email]);
+  }, [video, currentUser]);
 
   useEffect(() => {
     console.log('State comments after update:', comments);
@@ -56,8 +43,8 @@ const CommentSection = ({ video, currentUser }) => {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
 
-    if (!user) {
-      console.log('No user logged in, redirecting to login screen');
+    if (!currentUser) {
+      console.log('No currentUser logged in, redirecting to login screen');
       navigate('/login-email');
       return;
     }
@@ -65,15 +52,15 @@ const CommentSection = ({ video, currentUser }) => {
     if (newComment.trim()) {
       const date = new Date().toISOString();
       const newCommentObj = {
-        userName: user.displayName,
-        profilePic: user.photo,
+        userName: currentUser.displayName,
+        profilePic: currentUser.photo,
         text: newComment,
         date,
         videoId: video._id
       };
 
       try {
-        const response = await fetch(`http://localhost:8200/api/users/${user.email}/videos/${video._id}/comments`, {
+        const response = await fetch(`http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -99,7 +86,7 @@ const CommentSection = ({ video, currentUser }) => {
   const handleDeleteComment = async (commentId) => {
     console.log('Deleting comment with ID:', commentId); // Log the comment ID
     try {
-      const response = await fetch(`http://localhost:8200/api/users/${user.email}/videos/${video._id}/comments/${commentId}`, {
+      const response = await fetch(`http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments/${commentId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -121,7 +108,7 @@ const CommentSection = ({ video, currentUser }) => {
   const handleEditComment = async (index, newContent) => {
     const commentToEdit = comments[index];
     try {
-      const response = await fetch(`http://localhost:8200/api/users/${user.email}/videos/${video._id}/comments/${commentToEdit._id}`, {
+      const response = await fetch(`http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments/${commentToEdit._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -168,7 +155,7 @@ const CommentSection = ({ video, currentUser }) => {
             content={comment.text}
             onDelete={() => handleDeleteComment(comment._id)}
             onEdit={(newContent) => handleEditComment(index, newContent)}
-            currentUserEmail={user.email}
+            currentUserEmail={currentUser.email}
           />
         ))}
       </div>

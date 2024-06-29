@@ -10,6 +10,7 @@ const VideoUpload = ({ user }) => {
   const [previewImg, setPreviewImg] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [previewVideo, setPreviewVideo] = useState(null);
+  const token = localStorage.getItem('token');
 
   const navigate = useNavigate();
 
@@ -58,12 +59,12 @@ const VideoUpload = ({ user }) => {
       owner: user.email
     };
 
-
     try {
       const res = await fetch(`http://localhost:8200/api/users/${user.email}/videos`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'authorization': 'bearer ' + token
         },
         body: JSON.stringify(newVideo)
       });
@@ -73,7 +74,8 @@ const VideoUpload = ({ user }) => {
       }
 
       const data = await res.json();
-      navigate(`/home`);
+     // Navigate to the video watch screen
+     navigate(`/home/api/users/${user.email}/videos`);
     } catch (error) {
       console.error('An error occurred. Please try again later.', error);
       setError('An error occurred while uploading the video. Please try again later.');
