@@ -4,7 +4,7 @@ import Navbar from '../Navbar/Navbar';
 import VideoCollection from '../VideoCollection/VideoCollection'; 
 import './HomePage.css';
 
-const HomePage = ({ users, user, setUser, setVideos, isDarkMode, setIsDarkMode }) => {
+const HomePage = ({ isDarkMode, setIsDarkMode }) => {
   const [videoList, setVideoList] = useState([]);
   const navigate = useNavigate();
 
@@ -19,14 +19,13 @@ const HomePage = ({ users, user, setUser, setVideos, isDarkMode, setIsDarkMode }
         });
         const data = await res.json();
         setVideoList(data);
-        setVideos(data);
       } catch (error) {
         console.error('Error fetching videos:', error);
       }
     };
 
     fetchVideos();
-  }, [setVideos]);
+  }, []);
 
   const doSearch = (query) => {
     setVideoList(videoList.filter((video) => video.title.includes(query)));
@@ -35,10 +34,10 @@ const HomePage = ({ users, user, setUser, setVideos, isDarkMode, setIsDarkMode }
 
   return (
     <div className="main-screen">
-      <Navbar user={user} setUser={setUser} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} doSearch={doSearch} />
+      <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} doSearch={doSearch} />
       <div className="main-content">
         <div className="video-content">
-          <VideoCollection videos={videoList} users={users} setVideos={setVideos} />
+          <VideoCollection videos={videoList} />
         </div>
       </div>
     </div>

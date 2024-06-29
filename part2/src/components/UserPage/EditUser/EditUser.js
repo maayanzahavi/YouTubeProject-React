@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './EditUser.css';
 
-const EditUser = ({ onSave }) => {
+const EditUser = () => {
   const { id } = useParams();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -97,11 +97,6 @@ const EditUser = ({ onSave }) => {
         const updatedUserData = await res.json();
         setUser(updatedUserData);
         console.log('User details updated:', updatedUserData);
-        if (typeof onSave === 'function') {
-          onSave(updatedUserData);
-        } else {
-          console.error('onSave is not a function');
-        }
         navigate(-1); // Navigate back to the previous page
       } else {
         const errorText = await res.text();

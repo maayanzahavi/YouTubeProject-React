@@ -21,7 +21,7 @@ const EditScreen = ({ setVideos, setIdCounter, user }) => {
     };
 
     fetchVideoDetails();
-  }, [pid, id]);
+  }, []);
 
   if (!video) {
     return <div>No video found...</div>;

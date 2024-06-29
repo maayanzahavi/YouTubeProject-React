@@ -40,9 +40,9 @@
   .account-link {
     font-size: 15px;
     text-decoration: underline;
-    color: red;
+    color: var(--red);
     margin-top: 10px;
-    text-align: center; /* Center align text */
+    text-align: center;
   }
   
   .account-link:hover {

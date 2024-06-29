@@ -5,3 +5,7 @@
   padding: 16px;
   justify-content: center;
 }
+
+.normal-text {
+  color: var(--black);
+}

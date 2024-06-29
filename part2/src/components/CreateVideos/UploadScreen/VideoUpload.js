@@ -5,67 +5,85 @@ import './VideoUpload.css';
 const VideoUpload = ({ user }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [video, setVideo] = useState(null);
-  const [img, setImg] = useState(null);
-  const [videoId, setVideoId] = useState('');
   const [error, setError] = useState('');
+  const [selectedImg, setSelectedImg] = useState(null);
+  const [previewImg, setPreviewImg] = useState(null);
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [previewVideo, setPreviewVideo] = useState(null);
 
   const navigate = useNavigate();
 
-  // Set a video
   const handleVideoChange = (e) => {
-    setVideo(e.target.files[0]);
+    const file = e.target.files[0];
+    setSelectedVideo(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewVideo(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
-  // Set image
   const handleImageChange = (e) => {
-    setImg(e.target.files[0]);
+    const file = e.target.files[0];
+    setSelectedImg(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewImg(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
-  const handleClose = () => {
-    navigate('/home');
+  const handleUploadClick = (inputId) => {
+    document.getElementById(inputId).click();
   };
 
-  // Save the video and add it to the video list
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (title && description && video && img && user && user.email) {
-      const newVideo = {
-        title: title,
-        description: description,
-        img: URL.createObjectURL(img),
-        video: URL.createObjectURL(video),
-        owner: user.email
-      };
+    if (!title || !description || !selectedVideo || !selectedImg) {
+      setError('Please fill in all fields and upload both a video and an image.');
+      return;
+    }
 
-      try {
-        const res = await fetch(`http://localhost:8200/api/users/${user.email}/videos`, {
-          method: 'POST',
-         headers: { 
-          'Content-Type': 'application/json' 
-         },
+    const newVideo = {
+      title: title,
+      description: description,
+      img: previewImg,
+      video: previewVideo,
+      owner: user.email
+    };
+
+
+    try {
+      const res = await fetch(`http://localhost:8200/api/users/${user.email}/videos`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(newVideo)
       });
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
 
-        const data = await res.json();
-        setVideoId(data._id);
-        navigate(`/home`);
-      } catch (error) {
-        console.error('An error occurred. Please try again later.', error);
-        setError('An error occurred while uploading the video. Please try again later.');
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
       }
-    } else {
-      setError('All fields are required and user must be logged in.');
+
+      const data = await res.json();
+      navigate(`/home`);
+    } catch (error) {
+      console.error('An error occurred. Please try again later.', error);
+      setError('An error occurred while uploading the video. Please try again later.');
     }
   };
 
   return (
     <div className="video-upload-container">
       <div className="video-upload-box">
-        <button className="close-button" onClick={handleClose}>
+        <button className="close-button" onClick={() => navigate('/home')}>
           &times;
         </button>
         <h2 className="video-upload-title">Upload a Video</h2>
@@ -78,15 +96,15 @@ const VideoUpload = ({ user }) => {
                 className="upload-link"
                 onClick={(e) => {
                   e.preventDefault();
-                  document.getElementById('video-file').click();
+                  handleUploadClick('video-file');
                 }}
               >
                 Choose Video
               </Link>
               <div className="video-box">
-                {video && (
+                {previewVideo && (
                   <video controls className="video-preview">
-                    <source src={URL.createObjectURL(video)} type="video/mp4" />
+                    <source src={previewVideo} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                 )}
@@ -106,13 +124,13 @@ const VideoUpload = ({ user }) => {
                 className="upload-link"
                 onClick={(e) => {
                   e.preventDefault();
-                  document.getElementById('img-file').click();
+                  handleUploadClick('img-file');
                 }}
               >
                 Choose Thumbnail
               </Link>
               <div className="image-box">
-                {img && <img src={URL.createObjectURL(img)} alt="Thumbnail Preview" className="image-preview" />}
+                {previewImg && <img src={previewImg} alt="Thumbnail Preview" className="image-preview" />}
               </div>
               <input
                 type="file"
@@ -127,7 +145,13 @@ const VideoUpload = ({ user }) => {
           <div className="right-section">
             <div className="upload-input-group">
               <label htmlFor="video-title">Title:</label>
-              <input type="text" id="video-title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+              <input
+                type="text"
+                id="video-title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
             </div>
             <div className="upload-input-group">
               <label htmlFor="video-description">Description:</label>
