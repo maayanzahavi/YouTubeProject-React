@@ -17,16 +17,18 @@ const VideoContent = ({ video, owner, currentUser }) => {
   const [likes, setLikes] = useState(video.likes);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isShareWindowVisible, setIsShareWindowVisible] = useState(false);
+  const token = localStorage.getItem('token');
 
   // Check if the video is liked by the current user
   useEffect(() => {
     const isLikedByUser = async () => {
       if (currentUser) {
         try {
-          const res = await fetch(`http://localhost:8200/api/users/${video.owner}/videos/${video._id}/likes/${currentUser.email}`, {
+          const res = await fetch(`http://localhost:8200/api/users/${video.owner}/videos/${video._id}/likes/`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
+              'authorization': 'bearer ' + token
             }
           });
           const data = await res.json();
@@ -54,7 +56,7 @@ const VideoContent = ({ video, owner, currentUser }) => {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${currentUser.token}`
+          'authorization': 'bearer ' + token
         },
         body: JSON.stringify({ userEmail: currentUser.email })
       });
