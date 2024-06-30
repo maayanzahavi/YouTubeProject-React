@@ -28,8 +28,8 @@ const VideoContent = ({ video, owner, currentUser }) => {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-              'authorization': 'bearer ' + token
-            }
+              authorization: 'bearer ' + token,
+            },
           });
           const data = await res.json();
           setIsLiked(data.isLiked);
@@ -56,9 +56,9 @@ const VideoContent = ({ video, owner, currentUser }) => {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'authorization': 'bearer ' + token
+          authorization: 'bearer ' + token,
         },
-        body: JSON.stringify({ userEmail: currentUser.email })
+        body: JSON.stringify({ userEmail: currentUser.email }),
       });
 
       if (res.ok) {
@@ -88,8 +88,8 @@ const VideoContent = ({ video, owner, currentUser }) => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'authorization': 'bearer ' + token
-        }
+          authorization: 'bearer ' + token,
+        },
       });
 
       if (!res.ok) {
@@ -126,7 +126,7 @@ const VideoContent = ({ video, owner, currentUser }) => {
             <VideoAction icon={<ShareIcon />} label="Share" action={handleShare} />
             <VideoAction icon={<IsLikedIcon isLiked={isLiked} />} label={`${likes} likes`} action={handleLike} />
             <div className="dropdown-container" style={{ position: 'relative' }}>
-              {currentUser && owner && (currentUser.email === owner.email) && (
+              {currentUser && owner && currentUser.email === owner.email && (
                 <button className="three-dots" onClick={toggleDropdown}>
                   <DotsIcon />
                 </button>
@@ -134,11 +134,15 @@ const VideoContent = ({ video, owner, currentUser }) => {
               {dropdownVisible && (
                 <div className="dropdown-menu">
                   <button onClick={handleEdit}>
-                    <div className="action-icon"><EditIcon /></div>
+                    <div className="action-icon">
+                      <EditIcon />
+                    </div>
                     Edit
                   </button>
                   <button onClick={handleDelete} className="delete-button">
-                    <div className="action-icon"><DeleteIcon /></div>
+                    <div className="action-icon">
+                      <DeleteIcon />
+                    </div>
                     Delete
                   </button>
                 </div>

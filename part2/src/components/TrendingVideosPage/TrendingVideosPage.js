@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
-import VideoCollection from '../VideoCollection/VideoCollection'; 
+import VideoCollection from '../VideoCollection/VideoCollection';
 
 const TrendingVideosPage = ({ isDarkMode, setIsDarkMode }) => {
   const [videoList, setVideoList] = useState([]);
@@ -13,8 +13,8 @@ const TrendingVideosPage = ({ isDarkMode, setIsDarkMode }) => {
         const res = await fetch('http://localhost:8200/api/videos', {
           method: 'GET',
           headers: {
-            'Content-Type': 'application/json'
-          }
+            'Content-Type': 'application/json',
+          },
         });
         const data = await res.json();
         setVideoList(data);

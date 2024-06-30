@@ -165,9 +165,9 @@ html {
 }
 
 .dropdown-menu img {
-  width: 16px; 
+  width: 16px;
   height: 16px;
-  margin-right: 8px; 
+  margin-right: 8px;
 }
 
 .delete-button {
@@ -175,5 +175,5 @@ html {
 }
 
 .action-icon {
-margin-right: 8px;
+  margin-right: 8px;
 }

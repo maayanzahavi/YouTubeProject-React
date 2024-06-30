@@ -10,13 +10,16 @@ const CommentSection = ({ video, currentUser }) => {
 
   const fetchComments = async () => {
     try {
-      const response = await fetch(`http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
+      const response = await fetch(
+        `http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        },
+      );
       if (response.ok) {
         const fetchedComments = await response.json();
         setComments(fetchedComments || []);
@@ -56,18 +59,21 @@ const CommentSection = ({ video, currentUser }) => {
         profilePic: currentUser.photo,
         text: newComment,
         date,
-        videoId: video._id
+        videoId: video._id,
       };
 
       try {
-        const response = await fetch(`http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        const response = await fetch(
+          `http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify(newCommentObj),
           },
-          body: JSON.stringify(newCommentObj)
-        });
+        );
 
         if (response.ok) {
           const savedComment = await response.json();
@@ -86,16 +92,19 @@ const CommentSection = ({ video, currentUser }) => {
   const handleDeleteComment = async (commentId) => {
     console.log('Deleting comment with ID:', commentId); // Log the comment ID
     try {
-      const response = await fetch(`http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments/${commentId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
+      const response = await fetch(
+        `http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments/${commentId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        },
+      );
 
       if (response.ok) {
-        setComments(comments.filter(comment => comment._id !== commentId));
+        setComments(comments.filter((comment) => comment._id !== commentId));
       } else {
         const errorText = await response.text();
         console.error('Error deleting comment:', response.status, errorText);
@@ -108,14 +117,17 @@ const CommentSection = ({ video, currentUser }) => {
   const handleEditComment = async (index, newContent) => {
     const commentToEdit = comments[index];
     try {
-      const response = await fetch(`http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments/${commentToEdit._id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+      const response = await fetch(
+        `http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments/${commentToEdit._id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify({ newText: newContent }),
         },
-        body: JSON.stringify({ newText: newContent })
-      });
+      );
 
       if (response.ok) {
         const updatedComment = await response.json();

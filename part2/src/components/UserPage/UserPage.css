@@ -32,7 +32,8 @@
   margin: 10px 0;
 }
 
-.email, .displayname {
+.email,
+.displayname {
   font-size: 18px;
   margin: 5px 0;
 }

@@ -16,8 +16,8 @@ function LoginEmail() {
       const res = await fetch(`http://localhost:8200/api/users/${email}`, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       });
       console.log('Response received:', res);
 

@@ -27,16 +27,16 @@ const EditUser = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
         });
-        
+
         const data = await res.json();
         const loggedInUserEmail = JSON.parse(atob(token.split('.')[1])).email;
-        
+
         if (loggedInUserEmail !== data.email) {
           setError('You are not authorized to edit this profile.');
-          navigate('/'); 
+          navigate('/');
           return;
         }
 
@@ -88,7 +88,7 @@ const EditUser = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(updatedUser),
       });
@@ -115,8 +115,8 @@ const EditUser = () => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       });
 
       if (!res.ok) {
@@ -125,7 +125,7 @@ const EditUser = () => {
       }
 
       localStorage.removeItem('token');
-      navigate('/'); 
+      navigate('/');
     } catch (error) {
       console.error('Error deleting user:', error);
       setError('Error deleting user');
@@ -193,13 +193,7 @@ const EditUser = () => {
               </div>
               <div className="account-upload-input-group">
                 <label htmlFor="email">Email:</label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+                <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
               </div>
               <div className="account-upload-input-group">
                 <label htmlFor="display-name">Display Name:</label>

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import VideoCollection from '../VideoCollection/VideoCollection';
 import ProfileDetails from './ProfileDetails/ProfileDetails';
-import {jwtDecode} from 'jwt-decode'; 
+import { jwtDecode } from 'jwt-decode';
 import './UserPage.css';
 
 const UserPage = ({ isDarkMode, setIsDarkMode }) => {
@@ -34,8 +34,8 @@ const UserPage = ({ isDarkMode, setIsDarkMode }) => {
           const res = await fetch(`http://localhost:8200/api/users/${userId}`, {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json'
-            }
+              'Content-Type': 'application/json',
+            },
           });
           const data = await res.json();
           setUser(data);
@@ -56,8 +56,8 @@ const UserPage = ({ isDarkMode, setIsDarkMode }) => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
         });
         const data = await res.json();
         setVideoList(data);

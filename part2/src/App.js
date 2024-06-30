@@ -29,33 +29,21 @@ function App() {
           <Route path="/signup-email" element={<SignUpEmail />} />
           <Route path="/signup-password" element={<SignUpPassword />} />
           <Route path="/signup-display" element={<SignUpDisplay />} />
-          <Route path="/home" element={<HomePage
-                isDarkMode={isDarkMode}
-                setIsDarkMode={setIsDarkMode}
-              />
-            }
+          <Route path="/home" element={<HomePage isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
+          <Route
+            path="/home/trending"
+            element={<TrendingVideosPage isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />}
           />
           <Route
-            path="/home/trending" element={ <TrendingVideosPage
-                isDarkMode={isDarkMode}
-                setIsDarkMode={setIsDarkMode}
-              />
-            }
+            path="/home/api/users/:id/videos/:pid"
+            element={<VideoScreen isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />}
           />
-          <Route path="/home/api/users/:id/videos/:pid" element={ <VideoScreen
-                isDarkMode={isDarkMode}
-                setIsDarkMode={setIsDarkMode}
-              />
-            }
+          <Route
+            path="/home/api/users/:id/videos"
+            element={<UserPage isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />}
           />
-          <Route path="/home/api/users/:id/videos" element={ <UserPage
-                isDarkMode={isDarkMode}
-                setIsDarkMode={setIsDarkMode}
-              />
-            }
-          />
-          <Route path="/home/api/users/:id/account" element={ <EditUser /> } />
-          <Route path="/video-upload" element={<UploadScreen />}/>
+          <Route path="/home/api/users/:id/account" element={<EditUser />} />
+          <Route path="/video-upload" element={<UploadScreen />} />
           <Route path="/home/api/users/:id/videos/:pid/edit" element={<EditScreen />} />
         </Routes>
       </BrowserRouter>

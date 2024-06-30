@@ -56,7 +56,7 @@ const VideoUpload = ({ user }) => {
       description: description,
       img: previewImg,
       video: previewVideo,
-      owner: user.email
+      owner: user.email,
     };
 
     try {
@@ -64,9 +64,9 @@ const VideoUpload = ({ user }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'authorization': 'bearer ' + token
+          authorization: 'bearer ' + token,
         },
-        body: JSON.stringify(newVideo)
+        body: JSON.stringify(newVideo),
       });
 
       if (!res.ok) {
@@ -74,8 +74,8 @@ const VideoUpload = ({ user }) => {
       }
 
       const data = await res.json();
-     // Navigate to the video watch screen
-     navigate(`/home/api/users/${user.email}/videos`);
+      // Navigate to the video watch screen
+      navigate(`/home/api/users/${user.email}/videos`);
     } catch (error) {
       console.error('An error occurred. Please try again later.', error);
       setError('An error occurred while uploading the video. Please try again later.');
@@ -147,13 +147,7 @@ const VideoUpload = ({ user }) => {
           <div className="right-section">
             <div className="upload-input-group">
               <label htmlFor="video-title">Title:</label>
-              <input
-                type="text"
-                id="video-title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-              />
+              <input type="text" id="video-title" value={title} onChange={(e) => setTitle(e.target.value)} required />
             </div>
             <div className="upload-input-group">
               <label htmlFor="video-description">Description:</label>

@@ -37,9 +37,9 @@ const VideoEdit = ({ video }) => {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'authorization': 'bearer ' + token
+          authorization: 'bearer ' + token,
         },
-        body: JSON.stringify(updatedVideo)
+        body: JSON.stringify(updatedVideo),
       });
 
       if (!res.ok) {
