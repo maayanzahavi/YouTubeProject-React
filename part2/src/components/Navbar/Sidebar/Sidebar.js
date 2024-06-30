@@ -1,4 +1,4 @@
-// Sidebar 
+// Sidebar
 import React from 'react';
 import Option from './Option/Option';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,6 @@ import HistoryIcon from '../../../assets/icons/HistoryIcon';
 import LikeIcon from '../../../assets/icons/LikeIcon';
 
 const Sidebar = ({ logo, onClose, className }) => {
-
   const navigate = useNavigate();
   // When clicking home go to home page
   const handleHome = (e) => {
@@ -22,7 +21,7 @@ const Sidebar = ({ logo, onClose, className }) => {
     { icon: <HomeIcon />, text: 'Home', action: handleHome },
     { icon: <TrendingIcon />, text: 'Trending' },
     { icon: <SubscriptionsIcon />, text: 'Subscriptions' },
-    { icon: <HistoryIcon/>, text: 'History' },
+    { icon: <HistoryIcon />, text: 'History' },
     { icon: <YourVideosIcon />, text: 'Your videos' },
     { icon: <LikeIcon />, text: 'Liked videos' },
   ];
@@ -36,7 +35,7 @@ const Sidebar = ({ logo, onClose, className }) => {
       <hr className="devider-line" />
       {menuOptions.map((option, index) => (
         <React.Fragment key={index}>
-          <Option icon={option.icon} text={option.text} action={option.action}/>
+          <Option icon={option.icon} text={option.text} action={option.action} />
         </React.Fragment>
       ))}
     </aside>

@@ -55,17 +55,16 @@ const VideoUpload = ({ user }) => {
       description: description,
       img: previewImg,
       video: previewVideo,
-      owner: user.email
+      owner: user.email,
     };
-
 
     try {
       const res = await fetch(`http://localhost:8200/api/users/${user.email}/videos`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newVideo)
+        body: JSON.stringify(newVideo),
       });
 
       if (!res.ok) {
@@ -145,13 +144,7 @@ const VideoUpload = ({ user }) => {
           <div className="right-section">
             <div className="upload-input-group">
               <label htmlFor="video-title">Title:</label>
-              <input
-                type="text"
-                id="video-title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-              />
+              <input type="text" id="video-title" value={title} onChange={(e) => setTitle(e.target.value)} required />
             </div>
             <div className="upload-input-group">
               <label htmlFor="video-description">Description:</label>

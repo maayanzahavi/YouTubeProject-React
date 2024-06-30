@@ -81,14 +81,30 @@ function App() {
               />
             }
           />
-          <Route path="/home/api/users/:id/account" element={ <EditUser /> } />
+          <Route path="/home/api/users/:id/account" element={<EditUser />} />
           <Route
             path="/video-upload"
-            element={<UploadScreen videos={videos} setVideos={setVideos} id={idCounter} setIdCounter={setIdCounter} user={currentUser} />}
+            element={
+              <UploadScreen
+                videos={videos}
+                setVideos={setVideos}
+                id={idCounter}
+                setIdCounter={setIdCounter}
+                user={currentUser}
+              />
+            }
           />
           <Route
             path="/home/api/users/:id/videos/:pid/edit"
-            element={<EditScreen videos={videos} setVideos={setVideos} id={idCounter} setIdCounter={setIdCounter} user={currentUser} />}
+            element={
+              <EditScreen
+                videos={videos}
+                setVideos={setVideos}
+                id={idCounter}
+                setIdCounter={setIdCounter}
+                user={currentUser}
+              />
+            }
           />
         </Routes>
       </BrowserRouter>

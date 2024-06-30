@@ -6,21 +6,14 @@ const ProfilePicture = ({ user, className }) => {
   const navigate = useNavigate();
 
   if (!user) {
-    return null; 
+    return null;
   }
 
   const handleProfileClick = () => {
     navigate(`/home/api/users/${user.email}/videos`);
   };
 
-  return (
-    <img 
-      src={user.photo} 
-      alt="Profile" 
-      className={`profile-pic ${className}`} 
-      onClick={handleProfileClick} 
-    />
-  );
+  return <img src={user.photo} alt="Profile" className={`profile-pic ${className}`} onClick={handleProfileClick} />;
 };
 
 export default ProfilePicture;

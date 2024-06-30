@@ -35,9 +35,9 @@ const VideoEdit = ({ video }) => {
       const res = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}`, {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedVideo)
+        body: JSON.stringify(updatedVideo),
       });
 
       if (!res.ok) {

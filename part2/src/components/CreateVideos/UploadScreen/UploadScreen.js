@@ -8,7 +8,7 @@ const UploadScreen = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userEmail, setUserEmail] = useState('');
   const token = localStorage.getItem('token');
-  
+
   useEffect(() => {
     if (token) {
       try {
@@ -29,8 +29,8 @@ const UploadScreen = () => {
           const res = await fetch(`http://localhost:8200/api/users/${userEmail}`, {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json'
-            }
+              'Content-Type': 'application/json',
+            },
           });
           const data = await res.json();
           setCurrentUser(data);
@@ -40,13 +40,13 @@ const UploadScreen = () => {
       }
     };
     fetchUserDetails();
-  }, [userEmail]); 
-  
+  }, [userEmail]);
+
   return (
     <div className="upload-screen">
       <Navbar />
       <div className="upload-content">
-        <VideoUpload user={currentUser}/>
+        <VideoUpload user={currentUser} />
       </div>
     </div>
   );

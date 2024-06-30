@@ -21,8 +21,8 @@ function SignUpEmail() {
         const res = await fetch(`http://localhost:8200/api/users/${email}`, {
           method: 'GET',
           headers: {
-            'Content-Type': 'application/json'
-          }
+            'Content-Type': 'application/json',
+          },
         });
 
         const data = await res.json();
@@ -30,8 +30,8 @@ function SignUpEmail() {
           navigate('/signup-password', { state: { firstName, lastName, email } });
         } else if (data) {
           setError('A user with this email already exists.');
-        } 
-        }catch (error) {
+        }
+      } catch (error) {
         setError('Server error. Please try again later.');
       }
     } else {

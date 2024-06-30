@@ -10,7 +10,7 @@ function LoginPassword({ setCurrentUser }) {
   const [enteredPassword, setEnteredPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  console.log("user", user);
+  console.log('user', user);
 
   const handleNext = async (e) => {
     e.preventDefault();
@@ -52,9 +52,9 @@ function LoginPassword({ setCurrentUser }) {
       const res = await fetch(`http://localhost:8200/api/tokens`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({email: user.email, password: user.password})
+        body: JSON.stringify({ email: user.email, password: user.password }),
       });
 
       if (!res.ok) {
@@ -63,8 +63,8 @@ function LoginPassword({ setCurrentUser }) {
 
       const data = await res.json();
       localStorage.setItem('token', data.token);
-      console.log("recieved token", data.token);
-      console.log("local storage token", localStorage.getItem('token'));
+      console.log('recieved token', data.token);
+      console.log('local storage token', localStorage.getItem('token'));
     } catch (error) {
       console.error('An error occurred. Please try again later.', error);
     }
@@ -87,7 +87,7 @@ function LoginPassword({ setCurrentUser }) {
               <div className="input-group">
                 <label htmlFor="password">Password</label>
                 <input
-                  type={showPassword ? 'text' : 'password'} 
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   name="password"
                   value={enteredPassword}

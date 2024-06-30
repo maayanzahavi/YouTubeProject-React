@@ -20,16 +20,16 @@ function VideoCollection({ videos }) {
           // },
           headers: {
             'Content-Type': 'application/json',
-          }
+          },
         });
       } catch (error) {
         console.error('Error setting likes:', error);
       }
-    }
+    };
     updateViews();
 
-     // Navigate to the video watch screen
-     navigate(`/home/api/users/${video.owner}/videos/${video._id}`);
+    // Navigate to the video watch screen
+    navigate(`/home/api/users/${video.owner}/videos/${video._id}`);
   };
 
   const videoList = videos.map((video, index) => (
@@ -38,11 +38,7 @@ function VideoCollection({ videos }) {
     </div>
   ));
 
-  return (
-    <div className="home-page">
-      {videoList}
-    </div>
-  );
+  return <div className="home-page">{videoList}</div>;
 }
 
 export default VideoCollection;

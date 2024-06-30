@@ -4,7 +4,7 @@
   border-radius: 50%;
   object-fit: cover;
   margin-right: 10px;
-  flex-shrink: 0; 
+  flex-shrink: 0;
 }
 
 .profile-pic:hover {
