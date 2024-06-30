@@ -1,7 +1,7 @@
 .sidebar {
   position: fixed;
   top: 0;
-  left: -290px; 
+  left: -290px;
   width: 250px;
   height: 100%;
   padding: 20px;
@@ -12,8 +12,8 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  z-index: 1000; 
-  transition: left 0.3s ease; 
+  z-index: 1000;
+  transition: left 0.3s ease;
 }
 
 .sidebar.show {
@@ -36,7 +36,7 @@
 }
 
 .sidebar .option {
-  padding: 10px 0; 
+  padding: 10px 0;
 }
 
 .sidebar .option img {

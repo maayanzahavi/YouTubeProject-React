@@ -2,16 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import VideoCollection from '../VideoCollection/VideoCollection';
-import './HomePage.css';
 
-const HomePage = ({ isDarkMode, setIsDarkMode }) => {
+const TrendingVideosPage = ({ isDarkMode, setIsDarkMode }) => {
   const [videoList, setVideoList] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await fetch('http://localhost:8200/api/videos/all', {
+        const res = await fetch('http://localhost:8200/api/videos', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -44,4 +43,4 @@ const HomePage = ({ isDarkMode, setIsDarkMode }) => {
   );
 };
 
-export default HomePage;
+export default TrendingVideosPage;

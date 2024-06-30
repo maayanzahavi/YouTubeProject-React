@@ -1,4 +1,4 @@
-// Sidebar 
+// Sidebar
 import React from 'react';
 import Option from './Option/Option';
 import { useNavigate } from 'react-router-dom';
@@ -10,20 +10,29 @@ import YourVideosIcon from '../../../assets/icons/YourVideosIcon';
 import HistoryIcon from '../../../assets/icons/HistoryIcon';
 import LikeIcon from '../../../assets/icons/LikeIcon';
 
-const Sidebar = ({ logo, onClose, className }) => {
-
+const Sidebar = ({ logo, onClose, className, user }) => {
   const navigate = useNavigate();
   // When clicking home go to home page
   const handleHome = (e) => {
-    e.preventDefault();
     navigate('/home');
   };
+
+  const handleTrending = (e) => {
+    navigate('/home/trending');
+  };
+
+  const handleYourVideos = (e) => {
+    if (user) {
+      navigate(`/home/api/users/${user.email}/videos`);
+    }
+  };
+
   const menuOptions = [
     { icon: <HomeIcon />, text: 'Home', action: handleHome },
-    { icon: <TrendingIcon />, text: 'Trending' },
+    { icon: <TrendingIcon />, text: 'Trending', action: handleTrending },
     { icon: <SubscriptionsIcon />, text: 'Subscriptions' },
-    { icon: <HistoryIcon/>, text: 'History' },
-    { icon: <YourVideosIcon />, text: 'Your videos' },
+    { icon: <HistoryIcon />, text: 'History' },
+    { icon: <YourVideosIcon />, text: 'Your videos', action: handleYourVideos },
     { icon: <LikeIcon />, text: 'Liked videos' },
   ];
 
@@ -36,7 +45,7 @@ const Sidebar = ({ logo, onClose, className }) => {
       <hr className="devider-line" />
       {menuOptions.map((option, index) => (
         <React.Fragment key={index}>
-          <Option icon={option.icon} text={option.text} action={option.action}/>
+          <Option icon={option.icon} text={option.text} action={option.action} />
         </React.Fragment>
       ))}
     </aside>

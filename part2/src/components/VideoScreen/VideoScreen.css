@@ -13,8 +13,8 @@
   padding: 20px;
   box-shadow: 0 0 10px var(--shadow);
   border-radius: 8px;
-  width: 90%; 
-  max-width: 1200px; 
+  width: 90%;
+  max-width: 1200px;
   text-align: center;
 }
 
@@ -30,7 +30,7 @@
 
 .video-player video {
   width: 100%;
-  height: auto; 
+  height: auto;
 }
 
 .video-screen-content {

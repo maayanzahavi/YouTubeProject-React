@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import './Navbar.css';
-import './Toggle/Toggle.css'; 
+import './Toggle/Toggle.css';
 import { useNavigate, Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import darkmodeLogo from '../../assets/darkmode_logo.png';
 import Sidebar from './Sidebar/Sidebar';
 import ProfilePicture from '../ProfilePicture/ProfilePicture';
-import Toggle from './Toggle/Toggle'; 
+import Toggle from './Toggle/Toggle';
 import SearchBar from './SearchBar';
 import UserIcon from '../../assets/icons/UserIcon';
 import VideoIcon from '../../assets/icons/VideoIcon';
-import { jwtDecode } from 'jwt-decode'; 
+import { jwtDecode } from 'jwt-decode';
 
 const Navbar = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null);
   const [userEmail, setUserEmail] = useState('');
   const token = localStorage.getItem('token');
-  
+
   useEffect(() => {
     if (token) {
       try {
@@ -25,8 +25,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, doSearch }) => {
         if (decodedUser) {
           setUserEmail(decodedUser.email);
         }
-      } catch (error) {
-      }
+      } catch (error) {}
     } else {
     }
   }, [token]);
@@ -38,8 +37,8 @@ const Navbar = ({ isDarkMode, setIsDarkMode, doSearch }) => {
           const res = await fetch(`http://localhost:8200/api/users/${userEmail}`, {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json'
-            }
+              'Content-Type': 'application/json',
+            },
           });
           const data = await res.json();
           setCurrentUser(data);
@@ -49,7 +48,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, doSearch }) => {
       }
     };
     fetchUserDetails();
-  }, [userEmail]); 
+  }, [userEmail]);
 
   const [showDetails, setShowDetails] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
@@ -88,7 +87,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, doSearch }) => {
     setIsDarkMode(!isDarkMode);
     setCurrentLogo(!isDarkMode ? darkmodeLogo : logo);
   };
-  
+
   return (
     <header className="navbar">
       <div className="navbar-left">
@@ -137,7 +136,9 @@ const Navbar = ({ isDarkMode, setIsDarkMode, doSearch }) => {
           </>
         ) : (
           <div className="profile-container" onClick={handleProfileClick}>
-            <div className="user-pic"><UserIcon /></div>
+            <div className="user-pic">
+              <UserIcon />
+            </div>
             <div className="profile-greeting">Sign in</div>
             {showDetails && (
               <div className="profile-details">
@@ -149,7 +150,12 @@ const Navbar = ({ isDarkMode, setIsDarkMode, doSearch }) => {
           </div>
         )}
       </div>
-      <Sidebar logo={currentLogo} className={showSidebar ? 'show' : ''} onClose={handleSidebarToggle} />
+      <Sidebar
+        logo={currentLogo}
+        user={currentUser}
+        className={showSidebar ? 'show' : ''}
+        onClose={handleSidebarToggle}
+      />
     </header>
   );
 };

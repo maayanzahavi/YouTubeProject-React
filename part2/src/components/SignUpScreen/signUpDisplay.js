@@ -43,16 +43,16 @@ function SignUpDisplay() {
         password: password,
         displayName: displayName,
         photo: preview,
-        likedVideos: []
+        likedVideos: [],
       };
 
       try {
         const res = await fetch('http://localhost:8200/api/users', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify(user)
+          body: JSON.stringify(user),
         });
 
         if (!res.ok) {
@@ -62,8 +62,7 @@ function SignUpDisplay() {
         const data = await res.json();
         localStorage.setItem('token', data.token);
         assignToken(user);
-        navigate('/home', { state: { user: data } }); 
-  
+        navigate('/home', { state: { user: data } });
       } catch (error) {
         setError('An error occurred. Please try again later.');
       }
@@ -75,9 +74,9 @@ function SignUpDisplay() {
       const res = await fetch(`http://localhost:8200/api/tokens`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({email: user.email, password: user.password})
+        body: JSON.stringify({ email: user.email, password: user.password }),
       });
 
       if (!res.ok) {
@@ -86,8 +85,8 @@ function SignUpDisplay() {
 
       const data = await res.json();
       localStorage.setItem('token', data.token);
-      console.log("recieved token", data.token);
-      console.log("local storage token", localStorage.getItem('token'));
+      console.log('recieved token', data.token);
+      console.log('local storage token', localStorage.getItem('token'));
     } catch (error) {
       console.error('An error occurred. Please try again later.', error);
     }

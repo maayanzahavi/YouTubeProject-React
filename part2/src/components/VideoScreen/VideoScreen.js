@@ -6,7 +6,7 @@ import './VideoScreen.css';
 import { jwtDecode } from 'jwt-decode';
 
 const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
-  const { id, pid } = useParams(); 
+  const { id, pid } = useParams();
   const [videoOwner, setVideoOwner] = useState(null);
   const [video, setVideo] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
@@ -20,20 +20,19 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
         if (decodedUser) {
           setUserEmail(decodedUser.email);
         }
-      } catch (error) {
-      }
+      } catch (error) {}
     } else {
     }
   }, [token, id, pid]);
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchVideoDetails = async () => {
       try {
         const response = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}`, {
           method: 'GET',
           headers: {
-            'Content-Type': 'application/json'
-          }
+            'Content-Type': 'application/json',
+          },
         });
         const data = await response.json();
         setVideo(data);
@@ -51,8 +50,8 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
           const res = await fetch(`http://localhost:8200/api/users/${userEmail}`, {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json'
-            }
+              'Content-Type': 'application/json',
+            },
           });
           const data = await res.json();
           setCurrentUser(data);
@@ -62,7 +61,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
       }
     };
     fetchCurrentUser();
-  }, [userEmail]); 
+  }, [userEmail]);
 
   useEffect(() => {
     const fetchVideoOwner = async () => {
@@ -71,8 +70,8 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
           const res = await fetch(`http://localhost:8200/api/users/${id}`, {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json'
-            }
+              'Content-Type': 'application/json',
+            },
           });
           const data = await res.json();
           setVideoOwner(data);
@@ -82,7 +81,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
       }
     };
     fetchVideoOwner();
-  }, [id, pid, video]); 
+  }, [id, pid, video]);
 
   if (!video) {
     return <p>Video not found</p>;
@@ -90,14 +89,10 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
 
   return (
     <div className="main-screen">
-      <Navbar 
-        isDarkMode={isDarkMode} 
-        setIsDarkMode={setIsDarkMode} 
-        doSearch={doSearch} 
-      />
+      <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} doSearch={doSearch} />
       <div className="main-content">
         <div className="video-screen-content">
-          <VideoContent video={video} owner={videoOwner} currentUser={currentUser}/>
+          <VideoContent video={video} owner={videoOwner} currentUser={currentUser} />
         </div>
       </div>
     </div>

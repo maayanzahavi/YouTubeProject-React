@@ -3,48 +3,19 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './login.css';
 import logo from '../../assets/logo.png';
 
-function LoginPassword({ setCurrentUser }) {
+function LoginPassword() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = location.state || {};
   const [enteredPassword, setEnteredPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  console.log("user", user);
+  console.log('user', user);
 
   const handleNext = async (e) => {
     e.preventDefault();
-
-    setCurrentUser(user);
     assignToken();
     navigate('/home', { state: { user } });
-
-    // if (enteredPassword == user.password) {
-    //     setCurrentUser(user);
-    //     assignToken();
-    //     navigate('/home', { state: { user } });
-    //   } else {
-    //     setError('Password incorrect.');
-    //   }
-
-    // try {
-    //   const res = await fetch(`http://localhost:8200/api/users/${user.email}`, {
-    //     method: 'GET',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     }
-    //   });
-    //   if (res.ok) {
-    //     const data = await res.json();
-    //     setCurrentUser(user);
-    //     assignToken();
-    //     navigate('/home', { state: { user } });
-    //   } else {
-    //     setError('Password incorrect.');
-    //   }
-    // } catch (error) {
-    //   setError('An error occurred. Please try again later.');
-    // }
   };
 
   const assignToken = async () => {
@@ -52,9 +23,9 @@ function LoginPassword({ setCurrentUser }) {
       const res = await fetch(`http://localhost:8200/api/tokens`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({email: user.email, password: user.password})
+        body: JSON.stringify({ email: user.email, password: user.password }),
       });
 
       if (!res.ok) {
@@ -63,8 +34,8 @@ function LoginPassword({ setCurrentUser }) {
 
       const data = await res.json();
       localStorage.setItem('token', data.token);
-      console.log("recieved token", data.token);
-      console.log("local storage token", localStorage.getItem('token'));
+      console.log('recieved token', data.token);
+      console.log('local storage token', localStorage.getItem('token'));
     } catch (error) {
       console.error('An error occurred. Please try again later.', error);
     }
@@ -87,7 +58,7 @@ function LoginPassword({ setCurrentUser }) {
               <div className="input-group">
                 <label htmlFor="password">Password</label>
                 <input
-                  type={showPassword ? 'text' : 'password'} 
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   name="password"
                   value={enteredPassword}
