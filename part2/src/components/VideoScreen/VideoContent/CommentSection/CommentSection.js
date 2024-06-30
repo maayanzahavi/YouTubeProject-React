@@ -9,6 +9,11 @@ const CommentSection = ({ video, currentUser }) => {
   const navigate = useNavigate();
 
   const fetchComments = async () => {
+    if (!currentUser || !currentUser.email) {
+      console.error('Current user is not available');
+      return;
+    }
+
     try {
       const response = await fetch(
         `http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments`,
@@ -32,13 +37,10 @@ const CommentSection = ({ video, currentUser }) => {
   };
 
   useEffect(() => {
-    fetchComments();
-  }, [video, currentUser]);
-
-  useEffect(() => {
-    console.log('State comments after update:', comments);
-  }, [comments]);
-
+    if (currentUser && currentUser.email) {
+      fetchComments();
+    }
+  }, [video._id, currentUser]);
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
   };
@@ -47,7 +49,6 @@ const CommentSection = ({ video, currentUser }) => {
     e.preventDefault();
 
     if (!currentUser) {
-      console.log('No currentUser logged in, redirecting to login screen');
       navigate('/login-email');
       return;
     }
@@ -56,6 +57,7 @@ const CommentSection = ({ video, currentUser }) => {
       const date = new Date().toISOString();
       const newCommentObj = {
         userName: currentUser.displayName,
+        email: currentUser.email,
         profilePic: currentUser.photo,
         text: newComment,
         date,
@@ -90,7 +92,6 @@ const CommentSection = ({ video, currentUser }) => {
   };
 
   const handleDeleteComment = async (commentId) => {
-    console.log('Deleting comment with ID:', commentId); // Log the comment ID
     try {
       const response = await fetch(
         `http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments/${commentId}`,
@@ -160,8 +161,8 @@ const CommentSection = ({ video, currentUser }) => {
         {comments.map((comment, index) => (
           <Comment
             key={comment._id}
-            userEmail={comment.userName}
             userName={comment.userName}
+            email={comment.email}
             profilePic={comment.profilePic}
             date={new Date(comment.date).toLocaleDateString()}
             content={comment.text}

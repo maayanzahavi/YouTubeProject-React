@@ -64,7 +64,7 @@ const VideoUpload = ({ user }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          authorization: 'bearer ' + token,
+          'authorization': 'bearer ' + token,
         },
         body: JSON.stringify(newVideo),
       });
