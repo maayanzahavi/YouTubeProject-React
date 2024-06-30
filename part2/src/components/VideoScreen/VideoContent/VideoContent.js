@@ -48,8 +48,7 @@ const VideoContent = ({ video, owner, currentUser }) => {
 
             headers: {
               'Content-Type': 'application/json',
-
-              authorization: 'bearer ' + token,
+              'authorization': 'bearer ' + token,
             },
           });
 
@@ -82,10 +81,8 @@ const VideoContent = ({ video, owner, currentUser }) => {
 
         headers: {
           'Content-Type': 'application/json',
-
-          authorization: 'bearer ' + token,
+          'authorization': 'bearer ' + token,
         },
-
         body: JSON.stringify({ userEmail: currentUser.email }),
       });
 
@@ -120,8 +117,7 @@ const VideoContent = ({ video, owner, currentUser }) => {
 
         headers: {
           'Content-Type': 'application/json',
-
-          authorization: 'bearer ' + token,
+          'authorization': 'bearer ' + token,
         },
       });
 
@@ -204,9 +200,7 @@ const VideoContent = ({ video, owner, currentUser }) => {
 
         <p className="video-description">{video.description}</p>
       </div>
-
       <CommentSection video={video} currentUser={currentUser} />
-
       {isShareWindowVisible && <ShareWindow onClose={closeShareWindow} />}
     </div>
   );

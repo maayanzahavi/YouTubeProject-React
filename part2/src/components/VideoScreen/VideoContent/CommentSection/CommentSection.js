@@ -41,7 +41,6 @@ const CommentSection = ({ video, currentUser }) => {
       fetchComments();
     }
   }, [video._id, currentUser]);
-
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
   };

@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './login.css';
 import logo from '../../assets/logo.png';
 
-function LoginPassword({ setCurrentUser }) {
+function LoginPassword() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = location.state || {};
@@ -14,37 +14,8 @@ function LoginPassword({ setCurrentUser }) {
 
   const handleNext = async (e) => {
     e.preventDefault();
-
-    setCurrentUser(user);
     assignToken();
     navigate('/home', { state: { user } });
-
-    // if (enteredPassword == user.password) {
-    //     setCurrentUser(user);
-    //     assignToken();
-    //     navigate('/home', { state: { user } });
-    //   } else {
-    //     setError('Password incorrect.');
-    //   }
-
-    // try {
-    //   const res = await fetch(`http://localhost:8200/api/users/${user.email}`, {
-    //     method: 'GET',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     }
-    //   });
-    //   if (res.ok) {
-    //     const data = await res.json();
-    //     setCurrentUser(user);
-    //     assignToken();
-    //     navigate('/home', { state: { user } });
-    //   } else {
-    //     setError('Password incorrect.');
-    //   }
-    // } catch (error) {
-    //   setError('An error occurred. Please try again later.');
-    // }
   };
 
   const assignToken = async () => {

@@ -150,7 +150,12 @@ const Navbar = ({ isDarkMode, setIsDarkMode, doSearch }) => {
           </div>
         )}
       </div>
-      <Sidebar logo={currentLogo} className={showSidebar ? 'show' : ''} onClose={handleSidebarToggle} />
+      <Sidebar
+        logo={currentLogo}
+        user={currentUser}
+        className={showSidebar ? 'show' : ''}
+        onClose={handleSidebarToggle}
+      />
     </header>
   );
 };
