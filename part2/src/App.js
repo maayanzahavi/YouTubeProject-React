@@ -22,29 +22,29 @@ function App() {
     <div className="App" data-theme={isDarkMode ? 'dark' : 'light'}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="/login-email" element={<LoginEmail />} />
-          <Route path="/login-password" element={<LoginPassword />} />
-          <Route path="/signup-name" element={<SignUpName />} />
-          <Route path="/signup-email" element={<SignUpEmail />} />
-          <Route path="/signup-password" element={<SignUpPassword />} />
-          <Route path="/signup-display" element={<SignUpDisplay />} />
-          <Route path="/home" element={<HomePage isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
+          <Route path="/" element={<Navigate to="/YouTube/home" />} />
+          <Route path="/YouTube/login-email" element={<LoginEmail />} />
+          <Route path="/YouTube/login-password" element={<LoginPassword />} />
+          <Route path="/YouTube/signup-name" element={<SignUpName />} />
+          <Route path="/YouTube/signup-email" element={<SignUpEmail />} />
+          <Route path="/YouTube/signup-password" element={<SignUpPassword />} />
+          <Route path="/YouTube/signup-display" element={<SignUpDisplay />} />
+          <Route path="/YouTube/home" element={<HomePage isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
           <Route
-            path="/home/trending"
+            path="/YouTube/trending"
             element={<TrendingVideosPage isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />}
           />
           <Route
-            path="/home/api/users/:id/videos/:pid"
+            path="/YouTube/users/:id/videos/:pid"
             element={<VideoScreen isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />}
           />
           <Route
-            path="/home/api/users/:id/videos"
+            path="/YouTube/users/:id/videos"
             element={<UserPage isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />}
           />
-          <Route path="/home/api/users/:id/account" element={<EditUser />} />
-          <Route path="/video-upload" element={<UploadScreen />} />
-          <Route path="/home/api/users/:id/videos/:pid/edit" element={<EditScreen />} />
+          <Route path="/YouTube/users/:id/account" element={<EditUser />} />
+          <Route path="/YouTube/users/:id/video-upload" element={<UploadScreen />} />
+          <Route path="/YouTube/users/:id/videos/:pid/edit" element={<EditScreen />} />
         </Routes>
       </BrowserRouter>
     </div>

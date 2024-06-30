@@ -15,7 +15,7 @@ function LoginPassword() {
   const handleNext = async (e) => {
     e.preventDefault();
     assignToken();
-    navigate('/home', { state: { user } });
+    navigate('/YouTube/home', { state: { user } });
   };
 
   const assignToken = async () => {

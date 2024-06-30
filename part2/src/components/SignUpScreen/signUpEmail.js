@@ -27,7 +27,7 @@ function SignUpEmail() {
 
         const data = await res.json();
         if (res.status === 404) {
-          navigate('/signup-password', { state: { firstName, lastName, email } });
+          navigate('/YouTube/signup-password', { state: { firstName, lastName, email } });
         } else if (data) {
           setError('A user with this email already exists.');
         }

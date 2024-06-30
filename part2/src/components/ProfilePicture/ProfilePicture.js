@@ -10,7 +10,7 @@ const ProfilePicture = ({ user, className }) => {
   }
 
   const handleProfileClick = () => {
-    navigate(`/home/api/users/${user.email}/videos`);
+    navigate(`/YouTube/users/${user.email}/videos`);
   };
 
   return <img src={user.photo} alt="Profile" className={`profile-pic ${className}`} onClick={handleProfileClick} />;

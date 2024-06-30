@@ -16,7 +16,7 @@ const VideoEdit = ({ video }) => {
   };
 
   const handleClose = () => {
-    navigate(`/home/api/users/${video.owner}/videos/${video._id}`);
+    navigate(`/YouTube/users/${video.owner}/videos/${video._id}`);
   };
 
   // Updates the video when hitting save
@@ -28,7 +28,7 @@ const VideoEdit = ({ video }) => {
       img: img ? URL.createObjectURL(img) : video.img,
     };
     await updateVideo(updatedVideo);
-    navigate(`/home/api/users/${video.owner}/videos/${video._id}`);
+    navigate(`/YouTube/users/${video.owner}/videos/${video._id}`);
   };
 
   const updateVideo = async (updatedVideo) => {

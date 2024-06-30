@@ -23,7 +23,7 @@ function SignUpPassword() {
     } else if (!(password === passwordConfirmation)) {
       setError('Your passwords do not match.');
     } else {
-      navigate('/signup-display', { state: { firstName, lastName, email, password } });
+      navigate('/YouTube/signup-display', { state: { firstName, lastName, email, password } });
     }
   };
 

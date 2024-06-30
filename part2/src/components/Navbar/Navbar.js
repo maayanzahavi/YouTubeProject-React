@@ -66,21 +66,21 @@ const Navbar = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   const handleSignOut = () => {
     localStorage.removeItem('token');
     setCurrentUser(null);
-    navigate('/home');
+    navigate('/YouTube/home');
   };
 
   const handleSwitchUser = () => {
     localStorage.removeItem('token');
     setCurrentUser(null);
-    navigate('/login-email');
+    navigate('/YouTube/login-email');
   };
 
   const handleVideoUploadClick = () => {
-    navigate('/video-upload');
+    navigate(`/YouTube/users/${currentUser.email}/video-upload`);
   };
 
   const handleLogoClick = () => {
-    navigate('/home');
+    navigate('/YouTube/home');
   };
 
   const handleModeToggle = () => {
@@ -142,7 +142,7 @@ const Navbar = ({ isDarkMode, setIsDarkMode, doSearch }) => {
             <div className="profile-greeting">Sign in</div>
             {showDetails && (
               <div className="profile-details">
-                <Link to="/login-email" className="signin">
+                <Link to="/YouTube/login-email" className="signin">
                   Sign in
                 </Link>
               </div>

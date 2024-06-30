@@ -28,7 +28,7 @@ function LoginEmail() {
       } else {
         const data = await res.json();
         console.log('Data received:', data);
-        navigate('/login-password', { state: { user: data } });
+        navigate('/YouTube/login-password', { state: { user: data } });
       }
     } catch (error) {
       console.error('Error fetching user:', error);

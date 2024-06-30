@@ -14,16 +14,16 @@ const Sidebar = ({ logo, onClose, className, user }) => {
   const navigate = useNavigate();
   // When clicking home go to home page
   const handleHome = (e) => {
-    navigate('/home');
+    navigate('/YouTube/home');
   };
 
   const handleTrending = (e) => {
-    navigate('/home/trending');
+    navigate('/YouTube/trending');
   };
 
   const handleYourVideos = (e) => {
     if (user) {
-      navigate(`/home/api/users/${user.email}/videos`);
+      navigate(`/YouTube/users/${user.email}/videos`);
     }
   };
 

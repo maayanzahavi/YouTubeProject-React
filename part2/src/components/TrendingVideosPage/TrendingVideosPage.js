@@ -28,7 +28,7 @@ const TrendingVideosPage = ({ isDarkMode, setIsDarkMode }) => {
 
   const doSearch = (query) => {
     setVideoList(videoList.filter((video) => video.title.includes(query)));
-    navigate('/home');
+    navigate('/YouTube/home');
   };
 
   return (

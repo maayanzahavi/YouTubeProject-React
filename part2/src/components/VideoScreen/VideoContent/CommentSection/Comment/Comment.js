@@ -26,7 +26,7 @@ const Comment = ({ userName, email, profilePic, date, content, onDelete, onEdit,
 
   return (
     <div className="comment-item">
-      <ProfilePicture user={{ displayName: userName, photo: profilePic }} className="comment-pic" />
+      <ProfilePicture user={{ displayName: userName, photo: profilePic, email: email }} className="comment-pic" />
       <div className="comment-content">
         <div className="comment-header">
           <span className="comment-name">{userName}</span>

@@ -75,7 +75,7 @@ const VideoUpload = ({ user }) => {
 
       const data = await res.json();
       // Navigate to the video watch screen
-      navigate(`/home/api/users/${user.email}/videos`);
+      navigate(`/YouTube/users/${user.email}/videos`);
     } catch (error) {
       console.error('An error occurred. Please try again later.', error);
       setError('An error occurred while uploading the video. Please try again later.');
@@ -85,7 +85,7 @@ const VideoUpload = ({ user }) => {
   return (
     <div className="video-upload-container">
       <div className="video-upload-box">
-        <button className="close-button" onClick={() => navigate('/home')}>
+        <button className="close-button" onClick={() => navigate('/YouTube/home')}>
           &times;
         </button>
         <h2 className="video-upload-title">Upload a Video</h2>

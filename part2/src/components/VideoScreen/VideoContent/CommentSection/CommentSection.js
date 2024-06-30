@@ -49,7 +49,7 @@ const CommentSection = ({ video, currentUser }) => {
     e.preventDefault();
 
     if (!currentUser) {
-      navigate('/login-email');
+      navigate('/YouTube/login-email');
       return;
     }
 

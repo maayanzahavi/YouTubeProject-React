@@ -65,7 +65,6 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
 
   useEffect(() => {
     const fetchVideoOwner = async () => {
-      if (userEmail) {
         try {
           const res = await fetch(`http://localhost:8200/api/users/${id}`, {
             method: 'GET',
@@ -78,10 +77,11 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
         } catch (error) {
           console.error('Error fetching user details:', error);
         }
-      }
     };
     fetchVideoOwner();
-  }, [id, pid, video]);
+  }, []);
+  console.log("video screen user:", videoOwner);
+  console.log("video screen user email:", id);
 
   if (!video) {
     return <p>Video not found</p>;

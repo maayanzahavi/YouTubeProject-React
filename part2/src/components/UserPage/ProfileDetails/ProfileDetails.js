@@ -32,7 +32,7 @@ const ProfileDetails = ({ user }) => {
     }
   }
   const handleAccountInfo = () => {
-    navigate(`/home/api/users/${user.email}/account`);
+    navigate(`/YouTube/users/${user.email}/account`);
   };
 
   return (

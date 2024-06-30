@@ -62,7 +62,7 @@ function SignUpDisplay() {
         const data = await res.json();
         localStorage.setItem('token', data.token);
         assignToken(user);
-        navigate('/home', { state: { user: data } });
+        navigate('/YouTube/home', { state: { user: data } });
       } catch (error) {
         setError('An error occurred. Please try again later.');
       }
