@@ -18,7 +18,7 @@ function SignUpEmail() {
 
     if (validateEmail(email)) {
       try {
-        const res = await fetch(`http://localhost:8200/api/users/${email}`, {
+        const res = await fetch(`/api/users/${email}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ function SignUpEmail() {
 
         const data = await res.json();
         if (res.status === 404) {
-          navigate('/signup-password', { state: { firstName, lastName, email } });
+          navigate('/YouTube/signup-password', { state: { firstName, lastName, email } });
         } else if (data) {
           setError('A user with this email already exists.');
         }

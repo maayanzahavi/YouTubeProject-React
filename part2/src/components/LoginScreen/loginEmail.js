@@ -13,7 +13,7 @@ function LoginEmail() {
     setError('');
     try {
       console.log('Sending request to server...');
-      const res = await fetch(`http://localhost:8200/api/users/${email}`, {
+      const res = await fetch(`/api/users/${email}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ function LoginEmail() {
       } else {
         const data = await res.json();
         console.log('Data received:', data);
-        navigate('/login-password', { state: { user: data } });
+        navigate('/YouTube/login-password', { state: { user: data } });
       }
     } catch (error) {
       console.error('Error fetching user:', error);
@@ -70,7 +70,7 @@ function LoginEmail() {
                 Next
               </button>
               <div className="create-account">
-                <Link to="/signup-name" className="create-account-link">
+                <Link to="/YouTube/signup-name" className="create-account-link">
                   Create account
                 </Link>
               </div>

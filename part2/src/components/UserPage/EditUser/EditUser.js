@@ -23,7 +23,7 @@ const EditUser = () => {
           return;
         }
 
-        const res = await fetch(`http://localhost:8200/api/users/${id}`, {
+        const res = await fetch(`/api/users/${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ const EditUser = () => {
     };
 
     try {
-      const res = await fetch(`http://localhost:8200/api/users/${id}`, {
+      const res = await fetch(`/api/users/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ const EditUser = () => {
 
   const handleDelete = async () => {
     try {
-      const res = await fetch(`http://localhost:8200/api/users/${id}`, {
+      const res = await fetch(`/api/users/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

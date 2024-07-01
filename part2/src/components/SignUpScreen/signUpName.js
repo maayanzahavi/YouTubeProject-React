@@ -14,7 +14,7 @@ function SignUpName() {
   const handleNext = (e) => {
     e.preventDefault();
     if (validateInput(firstName) && validateInput(lastName)) {
-      navigate('/signup-email', { state: { firstName, lastName } });
+      navigate('/YouTube/signup-email', { state: { firstName, lastName } });
     } else {
       setError('Only characters are allowed');
     }

@@ -1,49 +1,31 @@
 import React, { useState, useEffect } from 'react';
-
 import { useNavigate } from 'react-router-dom';
-
 import './VideoContent.css';
-
 import VideoAction from './VideoAction/VideoAction';
-
 import CommentSection from './CommentSection/CommentSection';
-
 import ProfilePicture from '../../ProfilePicture/ProfilePicture';
-
 import ShareWindow from './ShareWindow/ShareWindow';
-
 import ShareIcon from '../../../assets/icons/ShareIcon';
-
 import DotsIcon from '../../../assets/icons/ThreeDots';
-
 import EditIcon from '../../../assets/icons/EditIcon';
-
 import DeleteIcon from '../../../assets/icons/DeleteIcon';
-
 import IsLikedIcon from '../../../assets/icons/isLikedIcon';
 
 const VideoContent = ({ video, owner, currentUser }) => {
   const navigate = useNavigate();
-
   const [isLiked, setIsLiked] = useState(false);
-
   const [likes, setLikes] = useState(video.likes);
-
   const [dropdownVisible, setDropdownVisible] = useState(false);
-
   const [isShareWindowVisible, setIsShareWindowVisible] = useState(false);
-
   const token = localStorage.getItem('token');
-
-  console.log('userfrom video is', currentUser);
+  console.log("video content user:", owner);
 
   // Check if the video is liked by the current user
-
   useEffect(() => {
     const isLikedByUser = async () => {
       if (currentUser) {
         try {
-          const res = await fetch(`http://localhost:8200/api/users/${video.owner}/videos/${video._id}/likes/`, {
+          const res = await fetch(`/api/users/${video.owner}/videos/${video._id}/likes/`, {
             method: 'GET',
 
             headers: {
@@ -70,13 +52,13 @@ const VideoContent = ({ video, owner, currentUser }) => {
     e.preventDefault();
 
     if (!currentUser) {
-      navigate('/login-email');
+      navigate('/YouTube/login-email');
 
       return;
     }
-
+    // Add likes
     try {
-      const res = await fetch(`http://localhost:8200/api/users/${video.owner}/videos/${video._id}/likes`, {
+      const res = await fetch(`/api/users/${video.owner}/videos/${video._id}/likes`, {
         method: 'PATCH',
 
         headers: {
@@ -103,16 +85,14 @@ const VideoContent = ({ video, owner, currentUser }) => {
   };
 
   // Handle video edit
-
   const handleEdit = () => {
-    navigate(`/home/api/users/${video.owner}/videos/${video._id}/edit`);
+    navigate(`/YouTube/users/${video.owner}/videos/${video._id}/edit`);
   };
 
   // Handle video delete
-
   const handleDelete = async () => {
     try {
-      const res = await fetch(`http://localhost:8200/api/users/${video.owner}/videos/${video._id}`, {
+      const res = await fetch(`/api/users/${video.owner}/videos/${video._id}`, {
         method: 'DELETE',
 
         headers: {

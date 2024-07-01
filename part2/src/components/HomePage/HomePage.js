@@ -5,19 +5,21 @@ import VideoCollection from '../VideoCollection/VideoCollection';
 import './HomePage.css';
 
 const HomePage = ({ isDarkMode, setIsDarkMode }) => {
+  const [originalVideoList, setOriginalVideoList] = useState([]);
   const [videoList, setVideoList] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await fetch('http://localhost:8200/api/videos/all', {
+          const res = await fetch('/api/videos/all', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         });
         const data = await res.json();
+        setOriginalVideoList(data);
         setVideoList(data);
       } catch (error) {
         console.error('Error fetching videos:', error);
@@ -28,8 +30,12 @@ const HomePage = ({ isDarkMode, setIsDarkMode }) => {
   }, []);
 
   const doSearch = (query) => {
-    setVideoList(videoList.filter((video) => video.title.includes(query)));
-    navigate('/home');
+    if (query.trim() === '') {
+      setVideoList(originalVideoList);
+    } else {
+      setVideoList(originalVideoList.filter((video) => video.title.toLowerCase().includes(query.toLowerCase())));
+    }
+    navigate('/YouTube/home');
   };
 
   return (

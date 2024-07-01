@@ -12,12 +12,8 @@ function VideoCollection({ videos }) {
     // Increase views
     const updateViews = async () => {
       try {
-        const res = await fetch(`http://localhost:8200/api/users/${video.owner}/videos/${video._id}/views`, {
+        const res = await fetch(`/api/users/${video.owner}/videos/${video._id}/views`, {
           method: 'PATCH',
-          // headers: {
-          //   'Content-Type': 'application/json',
-          //   'Authorization': `Bearer ${currentUser.token}` // Ensure to pass the token here
-          // },
           headers: {
             'Content-Type': 'application/json',
           },
@@ -29,7 +25,7 @@ function VideoCollection({ videos }) {
     updateViews();
 
     // Navigate to the video watch screen
-    navigate(`/home/api/users/${video.owner}/videos/${video._id}`);
+    navigate(`/YouTube/users/${video.owner}/videos/${video._id}`);
   };
 
   const videoList = videos.map((video, index) => (

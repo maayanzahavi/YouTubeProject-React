@@ -47,7 +47,7 @@ function SignUpDisplay() {
       };
 
       try {
-        const res = await fetch('http://localhost:8200/api/users', {
+        const res = await fetch('/api/users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ function SignUpDisplay() {
         const data = await res.json();
         localStorage.setItem('token', data.token);
         assignToken(user);
-        navigate('/home', { state: { user: data } });
+        navigate('/YouTube/home', { state: { user: data } });
       } catch (error) {
         setError('An error occurred. Please try again later.');
       }
@@ -71,7 +71,7 @@ function SignUpDisplay() {
 
   const assignToken = async (user) => {
     try {
-      const res = await fetch(`http://localhost:8200/api/tokens`, {
+      const res = await fetch(`/api/tokens`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
