@@ -70,7 +70,7 @@ function LoginEmail() {
                 Next
               </button>
               <div className="create-account">
-                <Link to="/signup-name" className="create-account-link">
+                <Link to="/YouTube/signup-name" className="create-account-link">
                   Create account
                 </Link>
               </div>
