@@ -25,7 +25,7 @@ const VideoContent = ({ video, owner, currentUser }) => {
     const isLikedByUser = async () => {
       if (currentUser) {
         try {
-          const res = await fetch(`http://localhost:8200/api/users/${video.owner}/videos/${video._id}/likes/`, {
+          const res = await fetch(`/api/users/${video.owner}/videos/${video._id}/likes/`, {
             method: 'GET',
 
             headers: {
@@ -58,7 +58,7 @@ const VideoContent = ({ video, owner, currentUser }) => {
     }
     // Add likes
     try {
-      const res = await fetch(`http://localhost:8200/api/users/${video.owner}/videos/${video._id}/likes`, {
+      const res = await fetch(`/api/users/${video.owner}/videos/${video._id}/likes`, {
         method: 'PATCH',
 
         headers: {
@@ -92,7 +92,7 @@ const VideoContent = ({ video, owner, currentUser }) => {
   // Handle video delete
   const handleDelete = async () => {
     try {
-      const res = await fetch(`http://localhost:8200/api/users/${video.owner}/videos/${video._id}`, {
+      const res = await fetch(`/api/users/${video.owner}/videos/${video._id}`, {
         method: 'DELETE',
 
         headers: {

@@ -60,7 +60,7 @@ const VideoUpload = ({ user }) => {
     };
 
     try {
-      const res = await fetch(`http://localhost:8200/api/users/${user.email}/videos`, {
+      const res = await fetch(`/api/users/${user.email}/videos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

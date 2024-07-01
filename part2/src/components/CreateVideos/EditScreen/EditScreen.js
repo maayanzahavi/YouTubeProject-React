@@ -11,7 +11,7 @@ const EditScreen = ({ setVideos, setIdCounter, user }) => {
   useEffect(() => {
     const fetchVideoDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}`);
+        const response = await fetch(`/api/users/${id}/videos/${pid}`);
         const data = await response.json();
         setVideo(data);
         console.log('video: ', video);

@@ -28,7 +28,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   useEffect(() => {
     const fetchVideoDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}`, {
+        const response = await fetch(`/api/users/${id}/videos/${pid}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
     const fetchCurrentUser = async () => {
       if (userEmail) {
         try {
-          const res = await fetch(`http://localhost:8200/api/users/${userEmail}`, {
+          const res = await fetch(`/api/users/${userEmail}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   useEffect(() => {
     const fetchVideoOwner = async () => {
         try {
-          const res = await fetch(`http://localhost:8200/api/users/${id}`, {
+          const res = await fetch(`/api/users/${id}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
