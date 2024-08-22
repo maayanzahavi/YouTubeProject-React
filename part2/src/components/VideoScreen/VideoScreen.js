@@ -4,6 +4,7 @@ import VideoContent from './VideoContent/VideoContent';
 import { useParams } from 'react-router-dom';
 import './VideoScreen.css';
 import { jwtDecode } from 'jwt-decode';
+import VideoCollection from '../VideoCollection/VideoCollection';
 
 const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   const { id, pid } = useParams();
@@ -12,6 +13,27 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userEmail, setUserEmail] = useState('');
   const token = localStorage.getItem('token');
+
+  const [videoList, setVideoList] = useState([]);
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+          const res = await fetch('http://localhost:8200/api/videos/all', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await res.json();
+        setVideoList(data);
+      } catch (error) {
+        console.error('Error fetching videos:', error);
+      }
+    };
+
+    fetchVideos();
+  }, []);
+
 
   useEffect(() => {
     if (token) {
@@ -28,7 +50,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   useEffect(() => {
     const fetchVideoDetails = async () => {
       try {
-        const response = await fetch(`/api/users/${id}/videos/${pid}`, {
+        const response = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -47,7 +69,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
     const fetchCurrentUser = async () => {
       if (userEmail) {
         try {
-          const res = await fetch(`/api/users/${userEmail}`, {
+          const res = await fetch(`http://localhost:8200/users/${userEmail}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -66,7 +88,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   useEffect(() => {
     const fetchVideoOwner = async () => {
         try {
-          const res = await fetch(`/api/users/${id}`, {
+          const res = await fetch(`http://localhost:8200/api/users/${id}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -94,9 +116,13 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
         <div className="video-screen-content">
           <VideoContent video={video} owner={videoOwner} currentUser={currentUser} />
         </div>
+        <div className='recommended-videos'>
+          <VideoCollection videos={videoList} />
+        </div>
       </div>
     </div>
   );
 };
 
 export default VideoScreen;
+

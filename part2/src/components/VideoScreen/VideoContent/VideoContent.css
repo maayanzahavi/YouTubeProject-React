@@ -102,13 +102,6 @@ html {
   gap: 10px;
 }
 
-.comment-section {
-  margin-top: 20px;
-  width: 100%;
-  max-width: 600px;
-  text-align: left;
-}
-
 .comment-form {
   display: flex;
   margin-bottom: 20px;
@@ -177,3 +170,4 @@ html {
 .action-icon {
   margin-right: 8px;
 }
+
