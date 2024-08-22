@@ -13,19 +13,35 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userEmail, setUserEmail] = useState('');
   const token = localStorage.getItem('token');
+  const [recommendationsList, setRecommendationsList] = useState([]);
 
-  const [videoList, setVideoList] = useState([]);
+  // Extract user from token
+  useEffect(() => {
+    if (token) {
+      try {
+        const decodedUser = jwtDecode(token);
+        if (decodedUser) {
+          setUserEmail(decodedUser.email);
+        } else {
+          setUserEmail("testuser@example.com");
+        }
+      } catch (error) {}
+    } else {
+    }
+  }, [token, id, pid]);
+
+  // Get users recommendations
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-          const res = await fetch('http://localhost:8200/api/videos/all', {
+          const res = await fetch(`/api/users/${id}/videos/${pid}/recommendations/${userEmail}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         });
         const data = await res.json();
-        setVideoList(data);
+        setRecommendationsList(data);
       } catch (error) {
         console.error('Error fetching videos:', error);
       }
@@ -34,23 +50,11 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
     fetchVideos();
   }, []);
 
-
-  useEffect(() => {
-    if (token) {
-      try {
-        const decodedUser = jwtDecode(token);
-        if (decodedUser) {
-          setUserEmail(decodedUser.email);
-        }
-      } catch (error) {}
-    } else {
-    }
-  }, [token, id, pid]);
-
+  // Fetch video details
   useEffect(() => {
     const fetchVideoDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8200/api/users/${id}/videos/${pid}`, {
+        const response = await fetch(`/api/users/${id}/videos/${pid}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -65,11 +69,12 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
     fetchVideoDetails();
   }, [pid]);
 
+  // Fetch the current user using their email
   useEffect(() => {
     const fetchCurrentUser = async () => {
       if (userEmail) {
         try {
-          const res = await fetch(`http://localhost:8200/users/${userEmail}`, {
+          const res = await fetch(`/users/${userEmail}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -85,10 +90,11 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
     fetchCurrentUser();
   }, [userEmail]);
 
+  // Featch video owner
   useEffect(() => {
     const fetchVideoOwner = async () => {
         try {
-          const res = await fetch(`http://localhost:8200/api/users/${id}`, {
+          const res = await fetch(`/api/users/${id}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -118,7 +124,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
         </div>
         <div className='recommended-videos'>
           <div className='recommended-title'>Recommended Videos</div>
-          <VideoCollection videos={videoList} />
+          <VideoCollection videos={recommendationsList} />
         </div>
       </div>
     </div>
