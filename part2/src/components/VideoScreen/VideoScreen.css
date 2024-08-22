@@ -33,16 +33,15 @@
   height: auto;
 }
 
-.main-content {
+.video-main-content {
   display: flex;
   flex-direction: row; /* This makes the content flow horizontally */
   justify-content: space-between; /* Ensures space is distributed between items */
   align-items: flex-start; /* Aligns the items at the top */
-  width: 100%;
 }
 
 .video-screen-content {
-  flex: 3; /* Adjust the flex ratio to take more space compared to the recommended videos */
+  flex: 5; /* Adjust the flex ratio to take more space compared to the recommended videos */
   padding: 20px;
   background-color: var(--white);
   box-shadow: 0 0 10px var(--shadow);
@@ -50,9 +49,21 @@
 }
 
 .recommended-videos {
-  flex: 1; /* Make the recommended videos section take less space */
+  flex: 1.4; /* Make the recommended videos section take less space */
   margin-left: 20px; /* Adds some spacing between video content and recommended videos */
   display: flex;
   flex-direction: column; /* Ensure videos stack vertically */
-}
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 0 10px var(--shadow);
+  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 1000px;
+  }
 
+.recommended-title {
+  color: var(--title-color);
+  font-weight: bold;
+  padding: 20px;
+  margin-top: 30px;
+  font-size: 18px;
+}

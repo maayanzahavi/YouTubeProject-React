@@ -112,11 +112,12 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   return (
     <div className="main-screen">
       <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} doSearch={doSearch} />
-      <div className="main-content">
+      <div className="video-main-content">
         <div className="video-screen-content">
           <VideoContent video={video} owner={videoOwner} currentUser={currentUser} />
         </div>
         <div className='recommended-videos'>
+          <div className='recommended-title'>Recommended Videos</div>
           <VideoCollection videos={videoList} />
         </div>
       </div>
