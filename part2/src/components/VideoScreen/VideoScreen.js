@@ -11,9 +11,9 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   const [videoOwner, setVideoOwner] = useState(null);
   const [video, setVideo] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
-  const [userEmail, setUserEmail] = useState('');
-  const token = localStorage.getItem('token');
+  const [userEmail, setUserEmail] = useState('noUser');
   const [recommendationsList, setRecommendationsList] = useState([]);
+  const token = localStorage.getItem('token');
 
   // Extract user from token
   useEffect(() => {
@@ -22,8 +22,6 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
         const decodedUser = jwtDecode(token);
         if (decodedUser) {
           setUserEmail(decodedUser.email);
-        } else {
-          setUserEmail("testuser@example.com");
         }
       } catch (error) {}
     } else {
@@ -33,6 +31,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
   // Get users recommendations
   useEffect(() => {
     const fetchVideos = async () => {
+      console.log("logged in user: ", userEmail);
       try {
           const res = await fetch(`/api/users/${id}/videos/${pid}/recommendations/${userEmail}`, {
           method: 'GET',
@@ -48,7 +47,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
     };
 
     fetchVideos();
-  }, []);
+  }, [id, pid, userEmail]);
 
   // Fetch video details
   useEffect(() => {
@@ -67,7 +66,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
       }
     };
     fetchVideoDetails();
-  }, [pid]);
+  }, [id, pid]);
 
   // Fetch the current user using their email
   useEffect(() => {
@@ -107,7 +106,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
         }
     };
     fetchVideoOwner();
-  }, []);
+  }, [id, pid]);
   console.log("video screen user:", videoOwner);
   console.log("video screen user email:", id);
 
