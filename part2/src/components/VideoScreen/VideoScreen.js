@@ -74,7 +74,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
     const fetchCurrentUser = async () => {
       if (userEmail) {
         try {
-          const res = await fetch(`/users/${userEmail}`, {
+          const res = await fetch(`/api/users/${userEmail}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',

@@ -50,37 +50,72 @@ const VideoUpload = ({ user }) => {
       setError('Please fill in all fields and upload both a video and an image.');
       return;
     }
-
-    const newVideo = {
-      title: title,
-      description: description,
-      img: previewImg,
-      video: previewVideo,
-      owner: user.email,
-    };
-
+  
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('img', selectedImg);
+    formData.append('video', selectedVideo);
+    formData.append('owner', user.email);
+  
     try {
       const res = await fetch(`/api/users/${user.email}/videos`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           'authorization': 'bearer ' + token,
         },
-        body: JSON.stringify(newVideo),
+        body: formData,
       });
-
+      console.log("passed api request");
       if (!res.ok) {
         throw new Error('Network response was not ok');
       }
-
+  
       const data = await res.json();
-      // Navigate to the video watch screen
       navigate(`/YouTube/users/${user.email}/videos`);
     } catch (error) {
       console.error('An error occurred. Please try again later.', error);
       setError('An error occurred while uploading the video. Please try again later.');
     }
-  };
+  };  
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!title || !description || !selectedVideo || !selectedImg) {
+  //     setError('Please fill in all fields and upload both a video and an image.');
+  //     return;
+  //   }
+
+  //   const newVideo = {
+  //     title: title,
+  //     description: description,
+  //     img: previewImg,
+  //     video: previewVideo,
+  //     owner: user.email,
+  //   };
+
+  //   try {
+  //     const res = await fetch(`/api/users/${user.email}/videos`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'authorization': 'bearer ' + token,
+  //       },
+  //       body: JSON.stringify(newVideo),
+  //     });
+
+  //     if (!res.ok) {
+  //       throw new Error('Network response was not ok');
+  //     }
+
+  //     const data = await res.json();
+  //     // Navigate to the video watch screen
+  //     navigate(`/YouTube/users/${user.email}/videos`);
+  //   } catch (error) {
+  //     console.error('An error occurred. Please try again later.', error);
+  //     setError('An error occurred while uploading the video. Please try again later.');
+  //   }
+  // };
 
   return (
     <div className="video-upload-container">
