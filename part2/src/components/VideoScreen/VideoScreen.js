@@ -48,6 +48,7 @@ const VideoScreen = ({ isDarkMode, setIsDarkMode, doSearch }) => {
 
     fetchVideos();
   }, [id, pid, userEmail]);
+  console.log("recommendations: ", recommendationsList);
 
   // Fetch video details
   useEffect(() => {

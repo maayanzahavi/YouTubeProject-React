@@ -27,7 +27,6 @@ const VideoContent = ({ video, owner, currentUser }) => {
         try {
           const res = await fetch(`/api/users/${video.owner}/videos/${video._id}/likes/`, {
             method: 'GET',
-
             headers: {
               'Content-Type': 'application/json',
               'authorization': 'bearer ' + token,
@@ -47,20 +46,17 @@ const VideoContent = ({ video, owner, currentUser }) => {
   }, [video.owner, video._id, currentUser]);
 
   // Handle like action
-
   const handleLike = async (e) => {
     e.preventDefault();
 
     if (!currentUser) {
       navigate('/YouTube/login-email');
-
       return;
     }
     // Add likes
     try {
       const res = await fetch(`/api/users/${video.owner}/videos/${video._id}/likes`, {
         method: 'PATCH',
-
         headers: {
           'Content-Type': 'application/json',
           'authorization': 'bearer ' + token,
@@ -70,7 +66,6 @@ const VideoContent = ({ video, owner, currentUser }) => {
 
       if (res.ok) {
         setIsLiked(!isLiked);
-
         setLikes(isLiked ? likes - 1 : likes + 1);
       } else {
         throw new Error('Network response was not ok');
@@ -94,7 +89,6 @@ const VideoContent = ({ video, owner, currentUser }) => {
     try {
       const res = await fetch(`/api/users/${video.owner}/videos/${video._id}`, {
         method: 'DELETE',
-
         headers: {
           'Content-Type': 'application/json',
           'authorization': 'bearer ' + token,
@@ -123,11 +117,9 @@ const VideoContent = ({ video, owner, currentUser }) => {
     <div className="video-page-container">
       <div className="video-wrapper">
         <div className="video-element-wrapper">
-          <video controls className="video-element">
+          <video key={video.video} controls className="video-element">
             <source src={video.video} type="video/mp4" />
-
             <p>Your browser does not support the video tag.</p>
-
             <img src="path/to/fallback-image.jpg" alt="Fallback Image" />
           </video>
         </div>
@@ -137,7 +129,6 @@ const VideoContent = ({ video, owner, currentUser }) => {
 
           <div className="video-actions">
             <VideoAction icon={<ShareIcon />} label="Share" action={handleShare} />
-
             <VideoAction icon={<IsLikedIcon isLiked={isLiked} />} label={`${likes} likes`} action={handleLike} />
 
             <div className="dropdown-container" style={{ position: 'relative' }}>
@@ -170,10 +161,8 @@ const VideoContent = ({ video, owner, currentUser }) => {
 
         <div className="video-owner-details">
           {owner && <ProfilePicture user={owner} />}
-
           <div className="owner-info">
             <span className="owner-name">{owner ? owner.displayName : 'Unknown'}</span>
-
             <span className="video-views">{video.views} views</span>
           </div>
         </div>
