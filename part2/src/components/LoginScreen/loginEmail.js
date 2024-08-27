@@ -13,7 +13,7 @@ function LoginEmail() {
     setError('');
     try {
       console.log('Sending request to server...');
-      const res = await fetch(`http://localhost:8200/api/users/${email}`, {
+      const res = await fetch(`/api/users/${email}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

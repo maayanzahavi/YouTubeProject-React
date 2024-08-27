@@ -14,6 +14,7 @@ const VideoUpload = ({ user }) => {
 
   const navigate = useNavigate();
 
+  // Handle video upload
   const handleVideoChange = (e) => {
     const file = e.target.files[0];
     setSelectedVideo(file);
@@ -27,6 +28,7 @@ const VideoUpload = ({ user }) => {
     }
   };
 
+  // Handle image upload
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setSelectedImg(file);
@@ -44,6 +46,7 @@ const VideoUpload = ({ user }) => {
     document.getElementById(inputId).click();
   };
 
+  // Handle submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title || !description || !selectedVideo || !selectedImg) {
@@ -59,7 +62,7 @@ const VideoUpload = ({ user }) => {
     formData.append('owner', user.email);
   
     try {
-      const res = await fetch(`http://localhost:8200/api/users/${user.email}/videos`, {
+      const res = await fetch(`/api/users/${user.email}/videos`, {
         method: 'POST',
         headers: {
           'authorization': 'bearer ' + token,

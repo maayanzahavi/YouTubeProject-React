@@ -14,6 +14,7 @@ const EditUser = () => {
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
+  // Get user details
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
@@ -24,7 +25,7 @@ const EditUser = () => {
           return;
         }
 
-        const res = await fetch(`http://localhost:8200/api/users/${id}`, {
+        const res = await fetch(`/api/users/${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -75,6 +76,7 @@ const EditUser = () => {
     }
   };
 
+  // Submit user edit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -88,7 +90,7 @@ const EditUser = () => {
     }
 
     try {
-      const res = await fetch(`http://localhost:8200/api/users/${id}`, {
+      const res = await fetch(`/api/users/${id}`, {
         method: 'PATCH',
         headers: {
           'authorization': 'Bearer ' + token,
@@ -99,7 +101,6 @@ const EditUser = () => {
       if (res.ok) {
         const updatedUserData = await res.json();
         setUser(updatedUserData);
-        console.log('User details updated:', updatedUserData);
         navigate(-1); 
       } else {
         const errorText = await res.text();
@@ -112,9 +113,10 @@ const EditUser = () => {
     }
   };
 
+  // Delete user
   const handleDelete = async () => {
     try {
-      const res = await fetch(`http://localhost:8200/api/users/${id}`, {
+      const res = await fetch(`/api/users/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
