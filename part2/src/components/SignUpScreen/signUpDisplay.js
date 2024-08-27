@@ -47,7 +47,7 @@ function SignUpDisplay() {
       };
 
       try {
-        const res = await fetch('/api/users', {
+        const res = await fetch('http://localhost:8200/api/users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ function SignUpDisplay() {
 
   const assignToken = async (user) => {
     try {
-      const res = await fetch(`/api/tokens`, {
+      const res = await fetch(`http://localhost:8200/api/tokens`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -31,7 +31,7 @@ const UserPage = ({ isDarkMode, setIsDarkMode }) => {
     const fetchUserDetails = async (userId, setUser) => {
       if (userId) {
         try {
-          const res = await fetch(`/api/users/${userId}`, {
+          const res = await fetch(`http://localhost:8200/api/users/${userId}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ const UserPage = ({ isDarkMode, setIsDarkMode }) => {
   useEffect(() => {
     const fetchUserVideos = async () => {
       try {
-        const res = await fetch(`/api/users/${id}/videos`, {
+        const res = await fetch(`http://localhost:8200/api/users/${id}/videos`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

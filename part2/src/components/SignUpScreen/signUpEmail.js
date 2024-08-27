@@ -18,7 +18,7 @@ function SignUpEmail() {
 
     if (validateEmail(email)) {
       try {
-        const res = await fetch(`/api/users/${email}`, {
+        const res = await fetch(`http://localhost:8200/api/users/${email}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

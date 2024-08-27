@@ -20,7 +20,7 @@ function LoginPassword() {
 
   const assignToken = async () => {
     try {
-      const res = await fetch(`/api/tokens`, {
+      const res = await fetch(`http://localhost:8200/api/tokens`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

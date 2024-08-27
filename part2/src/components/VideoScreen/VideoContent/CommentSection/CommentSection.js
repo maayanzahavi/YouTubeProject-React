@@ -16,7 +16,7 @@ const CommentSection = ({ video, currentUser }) => {
 
     try {
       const response = await fetch(
-        `/api/users/${currentUser.email}/videos/${video._id}/comments`,
+        `http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments`,
         {
           method: 'GET',
           headers: {
@@ -66,7 +66,7 @@ const CommentSection = ({ video, currentUser }) => {
 
       try {
         const response = await fetch(
-          `/api/users/${currentUser.email}/videos/${video._id}/comments`,
+          `http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments`,
           {
             method: 'POST',
             headers: {
@@ -94,7 +94,7 @@ const CommentSection = ({ video, currentUser }) => {
   const handleDeleteComment = async (commentId) => {
     try {
       const response = await fetch(
-        `/api/users/${currentUser.email}/videos/${video._id}/comments/${commentId}`,
+        `http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments/${commentId}`,
         {
           method: 'DELETE',
           headers: {
@@ -119,7 +119,7 @@ const CommentSection = ({ video, currentUser }) => {
     const commentToEdit = comments[index];
     try {
       const response = await fetch(
-        `/api/users/${currentUser.email}/videos/${video._id}/comments/${commentToEdit._id}`,
+        `http://localhost:8200/api/users/${currentUser.email}/videos/${video._id}/comments/${commentToEdit._id}`,
         {
           method: 'PATCH',
           headers: {

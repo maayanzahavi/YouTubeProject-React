@@ -12,7 +12,7 @@ function VideoCollection({ videos }) {
     // Increase views
     const updateViews = async () => {
       try {
-        const res = await fetch(`/api/users/${video.owner}/videos/${video._id}/views`, {
+        const res = await fetch(`http://localhost:8200/api/users/${video.owner}/videos/${video._id}/views`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',

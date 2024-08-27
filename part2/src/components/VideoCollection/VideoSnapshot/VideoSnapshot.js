@@ -11,7 +11,7 @@ const VideoSnapshot = ({ video }) => {
     const fetchVideoOwner = async () => {
       if (video.owner) {
         try {
-          const res = await fetch(`/api/users/${video.owner}`, {
+          const res = await fetch(`http://localhost:8200/api/users/${video.owner}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',

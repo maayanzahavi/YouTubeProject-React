@@ -12,7 +12,7 @@ const HomePage = ({ isDarkMode, setIsDarkMode }) => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-          const res = await fetch('/api/videos/all', {
+          const res = await fetch('http://localhost:8200/api/videos/all', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

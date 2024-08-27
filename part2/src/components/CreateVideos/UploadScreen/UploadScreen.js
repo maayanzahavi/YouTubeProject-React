@@ -26,7 +26,7 @@ const UploadScreen = () => {
     const fetchUserDetails = async () => {
       if (userEmail) {
         try {
-          const res = await fetch(`/api/users/${userEmail}`, {
+          const res = await fetch(`http://localhost:8200/api/users/${userEmail}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
