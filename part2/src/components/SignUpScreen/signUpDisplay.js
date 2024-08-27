@@ -15,17 +15,30 @@ function SignUpDisplay() {
   const [preview, setPreview] = useState(null);
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setSelectedFile(file);
+  const file = e.target.files[0];
+  setSelectedFile(file); // Use the setter function to update the state
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreview(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    setPreview(reader.result); // Set the preview image
   };
+  if (file) {
+    reader.readAsDataURL(file); // Read the file to display the preview
+  }
+};
+
+  // const handleFileChange = (e) => {
+  //   const file = e.target.files[0];
+  //   setSelectedFile(file);
+
+  //   const reader = new FileReader();
+  //   reader.onloadend = () => {
+  //     setPreview(reader.result);
+  //   };
+  //   if (file) {
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   const handleUploadClick = () => {
     document.getElementById('fileInput').click();
@@ -36,47 +49,68 @@ function SignUpDisplay() {
     if (!displayName || !selectedFile) {
       setError('Please provide both a display name and a photo.');
     } else {
-      const user = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        displayName: displayName,
-        photo: preview,
-        likedVideos: [],
-      };
+
+      const formData = new FormData();
+      formData.append('firstName', firstName);
+      formData.append('lastName', lastName);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('displayName', displayName);
+      formData.append('photo', selectedFile);
 
       try {
-        const res = await fetch('http://localhost:8200/api/users', {
+        const res = await fetch(`http://localhost:8200/api/users`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(user),
+          body: formData,
         });
-
+        console.log("passed api request");
         if (!res.ok) {
           throw new Error('Network response was not ok');
         }
-
+    
         const data = await res.json();
+        console.log("passed data")
         localStorage.setItem('token', data.token);
-        assignToken(user);
-        navigate('/YouTube/home', { state: { user: data } });
+        console.log("passed stoarge")
+        assignToken();
+        console.log("passed assigntoken")
+        navigate('/YouTube/home');
       } catch (error) {
-        setError('An error occurred. Please try again later.');
+        console.error('An error occurred. Please try again later.', error);
+        setError('An error occurred while uploading the video. Please try again later.');
       }
+
+      // try {
+      //   const res = await fetch('http://localhost:8200/api/users', {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: formData,
+      //   });
+
+      //   if (!res.ok) {
+      //     throw new Error('Network response was not ok');
+      //   }
+
+      //   const data = await res.json();
+      //   localStorage.setItem('token', data.token);
+      //   assignToken();
+      //   navigate('/YouTube/home');
+      // } catch (error) {
+      //   setError('An error occurred. Please try again later.');
+      // }
     }
   };
 
-  const assignToken = async (user) => {
+  const assignToken = async () => {
     try {
       const res = await fetch(`http://localhost:8200/api/tokens`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: user.email, password: user.password }),
+        body: JSON.stringify({ email: email, password: password }),
       });
 
       if (!res.ok) {
