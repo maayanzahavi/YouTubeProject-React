@@ -98,7 +98,7 @@ const VideoContent = ({ video, owner, currentUser }) => {
         throw new Error('Network response was not ok');
       }
 
-      navigate(`/home`);
+      navigate(-1);
     } catch (error) {
       console.error('An error occurred while deleting the video. Please try again later.', error);
     }
