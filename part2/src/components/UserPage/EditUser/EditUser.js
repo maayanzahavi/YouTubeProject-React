@@ -11,6 +11,7 @@ const EditUser = () => {
   const [photo, setPhoto] = useState(null);
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
+  const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -63,41 +64,43 @@ const EditUser = () => {
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
+    setPhoto(file); // Set the file itself
+
     const reader = new FileReader();
     reader.onloadend = () => {
-      setPhoto(reader.result);
+      setPhoto(reader.result); // Set the preview of the image
     };
     if (file) {
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file); // Read the file for preview
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const updatedUser = {
-      firstName,
-      lastName,
-      email,
-      displayName,
-      photo: photo ? photo : user.photo,
-    };
+    const formData = new FormData();
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
+    formData.append('email', email);
+    formData.append('displayName', displayName);
+    if (photo instanceof File) {
+      formData.append('photo', photo); // Only append the photo if it's a file
+    }
 
     try {
       const res = await fetch(`http://localhost:8200/api/users/${id}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'authorization': 'Bearer ' + token,
         },
-        body: JSON.stringify(updatedUser),
+        body: formData,
       });
 
       if (res.ok) {
         const updatedUserData = await res.json();
         setUser(updatedUserData);
         console.log('User details updated:', updatedUserData);
-        navigate(-1); // Navigate back to the previous page
+        navigate(-1); 
       } else {
         const errorText = await res.text();
         console.error('Error updating user details:', errorText);
@@ -115,7 +118,7 @@ const EditUser = () => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'authorization': 'Bearer ' + token,
         },
       });
 
@@ -146,7 +149,7 @@ const EditUser = () => {
               <div className="account-upload-input-group">
                 <div className="account-photo-box">
                   {photo ? (
-                    <img src={photo} alt="Profile Preview" className="account-photo-preview" />
+                    <img src={photo instanceof File ? URL.createObjectURL(photo) : photo} alt="Profile Preview" className="account-photo-preview" />
                   ) : (
                     <img src={user.photo} alt="Profile Preview" className="account-photo-preview" />
                   )}

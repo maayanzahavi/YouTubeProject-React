@@ -16,29 +16,16 @@ function SignUpDisplay() {
 
   const handleFileChange = (e) => {
   const file = e.target.files[0];
-  setSelectedFile(file); // Use the setter function to update the state
+  setSelectedFile(file); 
 
   const reader = new FileReader();
   reader.onloadend = () => {
-    setPreview(reader.result); // Set the preview image
+    setPreview(reader.result); 
   };
   if (file) {
-    reader.readAsDataURL(file); // Read the file to display the preview
+    reader.readAsDataURL(file); 
   }
 };
-
-  // const handleFileChange = (e) => {
-  //   const file = e.target.files[0];
-  //   setSelectedFile(file);
-
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => {
-  //     setPreview(reader.result);
-  //   };
-  //   if (file) {
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
 
   const handleUploadClick = () => {
     document.getElementById('fileInput').click();
@@ -79,27 +66,6 @@ function SignUpDisplay() {
         console.error('An error occurred. Please try again later.', error);
         setError('An error occurred while uploading the video. Please try again later.');
       }
-
-      // try {
-      //   const res = await fetch('http://localhost:8200/api/users', {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: formData,
-      //   });
-
-      //   if (!res.ok) {
-      //     throw new Error('Network response was not ok');
-      //   }
-
-      //   const data = await res.json();
-      //   localStorage.setItem('token', data.token);
-      //   assignToken();
-      //   navigate('/YouTube/home');
-      // } catch (error) {
-      //   setError('An error occurred. Please try again later.');
-      // }
     }
   };
 
