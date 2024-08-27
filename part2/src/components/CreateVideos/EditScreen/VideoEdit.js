@@ -7,12 +7,16 @@ const VideoEdit = ({ video }) => {
   const [title, setTitle] = useState(video?.title || '');
   const [description, setDescription] = useState(video?.description || '');
   const [img, setImg] = useState(null);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
 
   // Changing image
   const handleImageChange = (e) => {
-    setImg(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      setImg(file);
+    }
   };
 
   const handleClose = () => {
@@ -22,31 +26,32 @@ const VideoEdit = ({ video }) => {
   // Updates the video when hitting save
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedVideo = {
-      title: title,
-      description: description,
-      img: img ? URL.createObjectURL(img) : video.img,
-    };
-    await updateVideo(updatedVideo);
-    navigate(`/YouTube/users/${video.owner}/videos/${video._id}`);
-  };
 
-  const updateVideo = async (updatedVideo) => {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    if (img) {
+      formData.append('img', img); // Only append if a new image is selected
+    }
+  
     try {
       const res = await fetch(`/api/users/${id}/videos/${pid}`, {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json',
           'authorization': 'bearer ' + token,
         },
-        body: JSON.stringify(updatedVideo),
+        body: formData,
       });
 
       if (!res.ok) {
         throw new Error('Network response was not ok');
       }
+
+      const data = await res.json();
+      navigate(`/YouTube/users/${video.owner}/videos/${video._id}`);
     } catch (error) {
       console.error('An error occurred. Please try again later.', error);
+      setError('An error occurred while editing the video. Please try again later.');
     }
   };
 
@@ -57,6 +62,7 @@ const VideoEdit = ({ video }) => {
           &times;
         </button>
         <h2 className="video-upload-title">Edit Video</h2>
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit} className="video-upload-form">
           <div className="left-section">
             <div className="upload-input-group">
