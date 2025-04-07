@@ -1,2 +1,2 @@
 # YouTubeProject-React
-**To run the full application [click here](https://github.com/maayanzahavi/YouTubeProject-CppServer/wiki)**
+__To run the full application [click here](https://github.com/maayanzahavi/YouTubeProject-CppServer/wiki)__
